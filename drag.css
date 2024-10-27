@@ -5,6 +5,19 @@
     border: 1px solid #d3d3d3;
     text-align: center;
   }
+
+  .movediv {
+    position: absolute;
+    z-index: 8;
+    text-align: center;
+  }
+
+  .linediv {
+    position: absolute;
+    z-index: 7;
+    text-align: center;
+  }
+  
   
   #mydivheader {
     padding: 10px;
