@@ -75,3 +75,13 @@ class drag{
 
 }
 
+    window.onload = function () {
+        setTimeout(() => {
+            document.getElementById("welcome-screen").style.opacity = "0";
+            setTimeout(() => {
+                document.getElementById("welcome-screen").style.display = "none";
+            }, 1000); // Wait for fade-out
+        }, 2000); // Show welcome for 2 seconds
+    };
+
+
