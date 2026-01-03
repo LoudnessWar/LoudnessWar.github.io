@@ -27,13 +27,12 @@
     color: #fff;
   }
 
-body {
-    margin: 0;
-    padding: 0;
-    background: url('background.jpg') no-repeat center center fixed;
-    background-size: cover;
-    overflow: hidden;
-}
+  body {
+      font-family: 'Courier New', monospace;
+      overflow: hidden;
+      height: 100vh;
+      position: relative;
+  }
 
 .taskbar {
     position: fixed;

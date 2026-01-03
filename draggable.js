@@ -48,17 +48,6 @@ class drag{
             //console.log(this.pos1 + "one " + this.pos2 + " two " + this.pos3 + " three " + this.pos4 + " pos4")
             this.element.style.top = (this.element.offsetTop - this.pos2) + "px";
             this.element.style.left = (this.element.offsetLeft - this.pos1) + "px";
-            //getLine(elem, node, pos2, pos1);
-            // if(node % 2 == 0){
-            //     lines.item(node).style.top = (elem.offsetTop - pos2)*(.5)  - (.5)*(dragable.item(node).offsetLeft - pos2) + "px"
-            //     //lines.item(node).style.left = (elem.offsetLeft - pos2) + "px"
-            //     console.log(node)
-            // } else {
-            //     //lines.item(node).style.top = (elem.offsetTop - pos2) + "px"
-            //     lines.item(node-1).style.left = (elem.offsetLeft - pos2)*(.5) - (.5)*(dragable.item(node).offsetLeft - pos2)+ "px"
-            //     console.log(node-1)
-            // }
-            //console.log(pos3 + " x " + pos4 + " y");
 
     }
 
