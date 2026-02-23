@@ -1,42 +1,82 @@
 [
-  {
-    "id": "acrust",
-    "title": "Rust Graphics and Physics Engine",
-    "description": "A custom OpenGl graphics and physics engine built from scratch in Rust, featuring a forward plus depth pre-pass lighting engine, a custom designed ECS architecture, and more!!!!",
-    "tags": ["Rust", "OpenGL", "GLSL"],
-    "github": "https://github.com/LoudnessWar/acrust",
-    "demo": null,
-    "featured": true,
-    "order": 1
-  },
-  {
-    "id": "portfolio",
-    "title": "My Website",
-    "description": "The website you are looking at RIGHT NOW!!!",
-    "tags": ["JavaScript", "HTML/CSS", "Canvas API", "Tailwind"],
-    "github": "https://github.com/LoudnessWar/LoudnessWar.github.io",
-    "demo": null,
-    "featured": false,
-    "order": 2
-  },
-  {
-    "id": "novel_lab",
-    "title": "Novel Lab",
-    "description": "A website for writing and sharing novels, built using JavaScript, HTML/CSS, and a Node.js PostgreSQL backend. Still in development so no live demo but has a lot of cool features like a WYSIWYG editor, user accounts, and more!",
-    "tags": ["JavaScript", "HTML/CSS", "Node.js", "PostGreSQL"],
-    "github": null,
-    "demo": null,
-    "featured": true,
-    "order": 3
-  },
-  {
-    "id": "cellulose",
-    "title": "Cellulous Data Analyzer",
-    "description": "A project in R that sorted through a large dataset of information about different types of Cellulous Models and then used machine learning to predict what features of cells were most likely to indicate a resistance to cold environments based on the data.",
-    "tags": ["R", "Machine Learning", "Data Analysis"],
-    "github": "https://github.com/LoudnessWar/Cellulose_Data",
-    "demo": null,
-    "featured": true,
-    "order": 4
-  }
+    {
+        "id": "acrust",
+        "title": "Rust Graphics and Physics Engine",
+        "description": "A custom OpenGl graphics and physics engine built from scratch in Rust, featuring a forward plus depth pre-pass lighting engine, a custom designed ECS architecture, and more!!!!",
+        "tags": ["Rust", "OpenGL", "GLSL"],
+        "github": "https://github.com/LoudnessWar/acrust",
+        "demo": null,
+        "featured": true,
+        "order": 1
+    },
+    {
+        "id": "portfolio",
+        "title": "My Website",
+        "description": "The website you are looking at RIGHT NOW!!!",
+        "tags": ["JavaScript", "HTML/CSS", "Canvas API", "Tailwind"],
+        "github": "https://github.com/LoudnessWar/LoudnessWar.github.io",
+        "demo": null,
+        "featured": false,
+        "order": 2
+    },
+    {
+        "id": "novel_lab",
+        "title": "Novel Lab",
+        "description": "A website for writing and sharing novels, built using JavaScript, HTML/CSS, and a Node.js PostgreSQL backend. Still in development so no live demo but has a lot of cool features like a WYSIWYG editor, user accounts, and more!",
+        "tags": ["JavaScript", "HTML/CSS", "Node.js", "PostGreSQL"],
+        "github": null,
+        "demo": null,
+        "featured": true,
+        "order": 3
+    },
+    {
+        "id": "cellulose",
+        "title": "Cellulous Data Analyzer",
+        "description": "A project in R that sorted through a large dataset of information about different types of Cellulous Models and then used machine learning to predict what features of cells were most likely to indicate a resistance to cold environments based on the data.",
+        "tags": ["R", "Machine Learning", "Data Analysis"],
+        "github": "https://github.com/LoudnessWar/Cellulose_Data",
+        "demo": null,
+        "featured": true,
+        "order": 4
+    },
+    {
+        "id": "py2.5",
+        "title": "Pygmae 2.5d",
+        "description": "Using pygame to create 2.5d Visuals and other screen/shader effects",
+        "tags": ["Python", "Graphics Programming"],
+        "github": "https://github.com/LoudnessWar/Pygame2.5d",
+        "demo": null,
+        "featured": true,
+        "order": 4
+    },
+    {
+        "id": "py2.5",
+        "title": "Pygmae 2.5d",
+        "description": "Using pygame to create 2.5d Visuals and other screen/shader effects",
+        "tags": ["Python", "Graphics Programming"],
+        "github": "https://github.com/LoudnessWar/Pygame2.5d",
+        "demo": null,
+        "featured": true,
+        "order": 4
+    },
+    {
+        "id": "RoadandRiver",
+        "title": "Releastic terrain, Road, and River Generation",
+        "description": "Releastic terrain, Road, and River Generation. Using an A* algorthim for Roads and A greedy search Algorithm for Rivers. Perlin Noise for terrain. In unity",
+        "tags": ["Unity", "C++", "Algorithms"],
+        "github": "PUT LINK IN",
+        "demo": null,
+        "featured": true,
+        "order": 4
+    },
+    {
+        "id": "Unity Lighting",
+        "title": "Custom Unity Lighting with Graphics Scene",
+        "description": "Custom Unity Lighting with Graphics Scene",
+        "tags": ["Unity", "C++", "Graphics Programming"],
+        "github": "https://github.com/LoudnessWar/Pygame2.5d",
+        "demo": null,
+        "featured": true,
+        "order": 4
+    }  
 ]

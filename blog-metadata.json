@@ -6,7 +6,8 @@
     "description": "A behind the scenes look at the development of this website, including the design choices, technologies used, and challenges faced along the way.",
     "tags": ["Web Development"],
     "readTime": "short read",
-    "featured": true
+    "featured": true,
+    "order": 1
   },
   {
     "id": "graphics-journey",
@@ -15,7 +16,8 @@
     "description": "Reflections on my experience learning graphics programming during my time at IU and beond, including challenges faced and lessons learned.",
     "tags": ["Personal", "Graphics"],
     "readTime": "short read",
-    "featured": true
+    "featured": true,
+    "order": 2
   },
   {
     "id": "detour",
@@ -24,6 +26,7 @@
     "description": "Making a small 3D engine that uses a html canvas",
     "tags": ["Web Development", "Graphics", "Tutorial"],
     "readTime": "10 min read",
-    "featured": true
+    "featured": true,
+    "order": 3
   }
 ]

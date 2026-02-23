@@ -201,6 +201,18 @@
         </div>
     </nav>
 
+    <div class="max-w-6xl mx-auto px-6 py-12">
+        <h1 class="text-5xl font-bold mb-4 fade-in">Blog Posts</h1>
+        <p class="text-xl text-gray-200 mb-12 fade-in fade-in-delay-1">Blog posts</p>
+
+        <div id="blogs-container" class="grid md:grid-cols-2 gap-8">
+            <div class="col-span-2 text-center py-12">
+                <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
+                <p class="mt-4 text-gray-300">Loading Blogs...</p>
+            </div>
+        </div>
+    </div>
+        
     <!-- Footer -->
     <footer class="bg-black/20 py-6 text-center border-t border-white/10">
         <p class="text-gray-300">Aiden Lara</p>
@@ -208,6 +220,63 @@
     </footer>
 
     <script src="background_particles.js"></script>
+    <script>
+        async function loadProjects() {
+            try {
+                const response = await fetch('blog-metadata.json');
+                const projects = await response.json();
+                
+                projects.sort((a, b) => a.order - b.order);
+                
+                const container = document.getElementById('blogs-container');
+                container.innerHTML = '';
+                
+                projects.forEach((project, index) => {
+                    const delayClass = `fade-in-delay-${Math.min(index + 1, 6)}`;
+                    
+                    const tags = project.tags.map(tag => 
+                        `<span class="tag">${tag}</span>`
+                    ).join('');
+                    
+                    const links = [];
+                    if (project.github) {
+                        links.push(`<a href="${project.github}" target="_blank" class="text-blue-300 hover:text-blue-200">GitHub →</a>`);
+                    }
+                    if (project.demo) {
+                        const demoText = project.demo.includes('youtube') ? 'Demo Video' : 
+                                        project.demo === 'index.html' ? "You're Here!" : 'Live Demo';
+                        links.push(`<a href="${project.demo}" ${!project.demo.includes('index.html') ? 'target="_blank"' : ''} class="text-blue-300 hover:text-blue-200">${demoText} →</a>`);
+                    }
+                    
+                    const projectHTML = `
+                        <div id="${project.id}" class="project-card fade-in ${delayClass}">
+                            <h3 class="text-2xl font-semibold mb-3">${project.title}</h3>
+                            <p class="text-gray-200 mb-4">
+                                ${project.description}
+                            </p>
+                            <div class="mb-4">
+                                ${tags}
+                            </div>
+                            <div class="flex gap-4">
+                                ${links.join('')}
+                            </div>
+                        </div>
+                    `;
+                    
+                    container.innerHTML += projectHTML;
+                });
+            } catch (error) {
+                console.error('Error loading projects:', error);
+                document.getElementById('projects-container').innerHTML = `
+                    <div class="col-span-2 text-center py-12">
+                        <p class="text-red-300">Error loading projects. Please try again later.</p>
+                    </div>
+                `;
+            }
+        }
+
+        loadProjects();
+    </script>
     <script>
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
