@@ -1,0 +1,100 @@
+{
+  "id": "3d_fun_blog",
+  "title": "Building a Tiny OBJ Renderer in Plain JavaScript",
+  "date": "2026-02-23",
+  "description": "A small experiment where I wrote a minimal OBJ wireframe renderer using the HTML canvas, mostly to understand the math better.",
+  "tags": ["Graphics", "JavaScript", "OBJ", "Renderer", "Learning"],
+  "readTime": "6 min read",
+  "content": [
+    {
+      "type": "text",
+      "text": "Most of my graphics work lately has been in Rust with OpenGL while building my own interactive interface untalizing graphics and physics? (game engine), so I wanted a tiny side project to make sure I still understood the fundamentals. I ended up writing a super small OBJ wireframe renderer in plain JavaScript using the HTML canvas. This was honestly me just procrasting on this site. I knew that later on I would be creating blog posts like the one you are reading right now and it would be good to have a few small projects like this one on them. So that is what this is."
+    },
+    {
+      "type": "heading",
+      "text": "What This Project Does"
+    },
+    {
+      "type": "text",
+      "text": "The goal was simple: Have Fun (Fisrt Priorety when working on a small project like this), then project points of 3D verticies into 2D space using the formula (x/z, y/z), next load vertices and faces from an OBJ file, project them to 2D, and draw lines between the vertices to create a rotating wireframe model. I didn't implement lighting, any sort of shading or shaders, or rasterization and focused this project on a simple mathematical projection and primative assembly."
+    },
+    {
+      "type": "image",
+      "src": "images/blog/simple-renderer-placeholder-1.png",
+      "alt": "wireframe model screenshot",
+      "caption": "A rotating wireframe model rendered on the canvas.",
+      "width": "full"
+    },
+    {
+      "type": "heading",
+      "text": "Core Ideas"
+    },
+    {
+      "type": "text",
+      "text": "The renderer follows a very small pipeline. First, parse the OBJ file into vertices and faces. Then transform the vertices with rotation and translation. Next, project the 3D coordinates into 2D. Finally, convert them into screen space and draw lines."
+    },
+    {
+      "type": "heading",
+      "text": "Projection Math"
+    },
+    {
+      "type": "text",
+      "text": "The projection step is the classic perspective divide. For a point (x, y, z), we compute (x/z, y/z). After that we map the normalized coordinates into screen pixels. The math is really simple so focusing on it this way helps it stand out."
+    },
+    {
+      "type": "image",
+      "src": "images/blog/simple-renderer-placeholder-2.png",
+      "alt": "projection diagram",
+      "caption": "Perspective projection from 3D space to 2D screen.",
+      "width": "full"
+    },
+    {
+      "type": "heading",
+      "text": "Animation Loop"
+    },
+    {
+      "type": "text",
+      "text": "I used a simple setTimeout loop to animate the rotation. Each frame rotates the vertices, projects them, and redraws the lines. It's not fancy, but it works."
+    },
+    {
+      "type": "heading",
+      "text": "Code Example"
+    },
+    {
+      "type": "text",
+      "text": "Here is a small part of the renderer showing the projection and drawing logic."
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "code": "function project({x, y, z}) {\n    return { x: x / z, y: y / z };\n}\n\nfunction line(p1, p2) {\n    ctx.beginPath();\n    ctx.moveTo(p1.x, p1.y);\n    ctx.lineTo(p2.x, p2.y);\n    ctx.stroke();\n}"
+    },
+    {
+      "type": "heading",
+      "text": "What I Learned"
+    },
+    {
+      "type": "text",
+      "text": "Even though I was a little rusty with JavaScript especially in a context outside of web-dev, building this helped reinforce the math behind rendering."
+    },
+    {
+      "type": "image",
+      "src": "images/blog/simple-renderer-placeholder-3.png",
+      "alt": "multiple frames of rotation",
+      "caption": "Different frames of the rotating model.",
+      "width": "full"
+    },
+    {
+      "type": "heading",
+      "text": "Next Steps"
+    },
+    {
+      "type": "text",
+      "text": "If I revisit this project, this I would like to add buttons that can switch the object rendered and make it parse a .obj file instead of just putting the teapot inside of a text string and parsing that. I also want to look at rasterization and shading for this project."
+    },
+    {
+      "type": "text",
+      "text": "This Project was a good reminder of the FUNdemntals and a lot of FUN to work on."
+    }
+  ]
+}

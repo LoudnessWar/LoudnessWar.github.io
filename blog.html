@@ -108,34 +108,32 @@
             transform: scale(1.05);
         }
 
-        /* I am thinking about changing these as well tbh */
-        .blog-item {
-            padding: 16px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        /* blog card is a more accurate name i feel like*/
+        /* 😭 Im really like not content with these at all I gotta look for some other cards */
+        .blog-card {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 24px;
             transition: all 0.3s ease;
             cursor: pointer;
             position: relative;
+            overflow: hidden;
         }
 
-        .blog-item::before {
+        .blog-card::before {
             content: '';
             position: absolute;
             left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 0;
-            height: 80%;
-            background: rgba(255, 255, 255, 0.1);
-            transition: width 0.3s ease;
-            border-radius: 4px;
-        }
-
-        .blog-item:hover::before {
+            top: 0;
             width: 4px;
+            height: 0;
+            background: linear-gradient(180deg, #7f5fff, #008cff);
+            transition: height 0.3s ease;
         }
 
-        .blog-item:hover {
-            padding-left: 15px;
+        .blog-card:hover::before {
+            height: 100%;
         }
 
         /* Tag badges 
@@ -201,7 +199,7 @@
         </div>
     </nav>
 
-    <div class="max-w-6xl mx-auto px-6 py-12">
+    <!-- <div class="max-w-6xl mx-auto px-6 py-12">
         <h1 class="text-5xl font-bold mb-4 fade-in">Blog Posts</h1>
         <p class="text-xl text-gray-200 mb-12 fade-in fade-in-delay-1">Blog posts</p>
 
@@ -209,6 +207,19 @@
             <div class="col-span-2 text-center py-12">
                 <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
                 <p class="mt-4 text-gray-300">Loading Blogs...</p>
+            </div>
+        </div>
+    </div> -->
+
+    <div class="max-w-4xl mx-auto px-6 py-12">
+        <h1 class="text-5xl font-bold mb-4 fade-in">Blog</h1>
+        <p class="text-xl text-gray-200 mb-12 fade-in fade-in-delay-1">Thoughts on graphics programming, web development, and software engineering.</p>
+
+        <div id="blogs-container" class="space-y-6">
+            <!-- Blog posts will be loaded dynamically -->
+            <div class="text-center py-12">
+                <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
+                <p class="mt-4 text-gray-300">Loading posts...</p>
             </div>
         </div>
     </div>
@@ -220,62 +231,61 @@
     </footer>
 
     <script src="background_particles.js"></script>
+
     <script>
-        async function loadProjects() {
+        async function loadBlogPosts() {
             try {
                 const response = await fetch('blog-metadata.json');
-                const projects = await response.json();
-                
-                projects.sort((a, b) => a.order - b.order);
+                const posts = await response.json();
                 
                 const container = document.getElementById('blogs-container');
-                container.innerHTML = '';
+                container.innerHTML = ''; // Clear loading spinner
                 
-                projects.forEach((project, index) => {
-                    const delayClass = `fade-in-delay-${Math.min(index + 1, 6)}`;
+                posts.forEach((post, index) => {
+                    const delayClass = `fade-in-delay-${Math.min(index + 1, 8)}`;
+                    const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
                     
-                    const tags = project.tags.map(tag => 
+                    const tags = post.tags.map(tag => 
                         `<span class="tag">${tag}</span>`
                     ).join('');
                     
-                    const links = [];
-                    if (project.github) {
-                        links.push(`<a href="${project.github}" target="_blank" class="text-blue-300 hover:text-blue-200">GitHub →</a>`);
-                    }
-                    if (project.demo) {
-                        const demoText = project.demo.includes('youtube') ? 'Demo Video' : 
-                                        project.demo === 'index.html' ? "You're Here!" : 'Live Demo';
-                        links.push(`<a href="${project.demo}" ${!project.demo.includes('index.html') ? 'target="_blank"' : ''} class="text-blue-300 hover:text-blue-200">${demoText} →</a>`);
-                    }
-                    
-                    const projectHTML = `
-                        <div id="${project.id}" class="project-card fade-in ${delayClass}">
-                            <h3 class="text-2xl font-semibold mb-3">${project.title}</h3>
+                    const postHTML = `
+                        <div id="${post.id}" class="blog-card fade-in ${delayClass}" onclick="window.location.href='post.html?id=${post.id}'">
+                            <div class="flex justify-between items-start mb-3">
+                                <h2 class="text-2xl font-semibold">${post.title}</h2>
+                                <span class="text-gray-400 text-sm whitespace-nowrap ml-4">${formattedDate}</span>
+                            </div>
                             <p class="text-gray-200 mb-4">
-                                ${project.description}
+                                ${post.description}
                             </p>
-                            <div class="mb-4">
+                            <div class="mb-3">
                                 ${tags}
                             </div>
-                            <div class="flex gap-4">
-                                ${links.join('')}
+                            <div class="flex justify-between items-center">
+                                <span class="text-blue-300 hover:text-blue-200">Read Full Article →</span>
+                                <span class="text-gray-400 text-sm">${post.readTime}</span>
                             </div>
                         </div>
                     `;
                     
-                    container.innerHTML += projectHTML;
+                    container.innerHTML += postHTML;
                 });
             } catch (error) {
-                console.error('Error loading projects:', error);
-                document.getElementById('projects-container').innerHTML = `
-                    <div class="col-span-2 text-center py-12">
-                        <p class="text-red-300">Error loading projects. Please try again later.</p>
+                console.error('Error loading blog posts:', error);
+                document.getElementById('blogs-container').innerHTML = `
+                    <div class="text-center py-12">
+                        <p class="text-red-300">Error loading blog posts. Please try again later.</p>
                     </div>
                 `;
             }
         }
 
-        loadProjects();
+        // Load posts when page loads
+        loadBlogPosts();
     </script>
     <script>
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {

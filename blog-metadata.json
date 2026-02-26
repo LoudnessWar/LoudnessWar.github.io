@@ -20,7 +20,7 @@
     "order": 2
   },
   {
-    "id": "detour",
+    "id": "3d_fun_blog",
     "title": "A quick Detour While Working on this site",
     "date": "2024-11-08",
     "description": "Making a small 3D engine that uses a html canvas",

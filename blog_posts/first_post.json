@@ -1,0 +1,50 @@
+{
+  "id": "first_post",
+  "title": "Title",
+  "date": "Date",
+  "description": "Description",
+  "tags": ["Tag1", "Tag2", "Tag3"],
+  "readTime": "X min read or whatever",
+  "content": [
+    {
+      "type": "text",
+      "text": "opening paragraph"
+    },
+    {
+      "type": "heading",
+      "text": "a section header"
+    },
+    {
+      "type": "text",
+      "text": "next paragraph"
+    },
+    {
+      "type": "image",
+      "src": "images/blog/whatever.png",
+      "alt": "alt discription",
+      "caption": "a fancy little caption",
+      "width": "full"
+    },
+    {
+      "type": "text",
+      "text": "Text after image"
+    },
+    {
+      "type": "heading",
+      "text": "Code Example Section"
+    },
+    {
+      "type": "text",
+      "text": "Here's some code:"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "code": "// Example of code here\nconst example = 'We gotta use Use \\n for line breaks';\nconsole.log(example);"
+    },
+    {
+      "type": "text",
+      "text": "conclusion paragraph."
+    }
+  ]
+}

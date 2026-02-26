@@ -1,0 +1,238 @@
+{
+  "id": "building-this-portfolio",
+  "title": "About this Site",
+  "date": "02-26-2026",
+  "description": "A chat about the creation of this sight",
+  "tags": ["Web Development", "Portfolio", "JavaScript", "Design"],
+  "readTime": "9 min read",
+  "content": [
+    {
+      "type": "text",
+      "text": "I have wanted to have a personal site for a very long time. Since I first got into computer science i loved browsing peoples portfolios. I remeber my Dad getting mad at me in middle school for asking if I could port forward our internet so I could host a Minecraft Server and my own Personal Website. He was afraid we would get hacked, which with my history of downloading junk onto the family's computer from the internet was valid. Is it just me or did the internet back in like 2009 feel more prone to just having a virus instead of a valid link? When I decided to build a portfolio site for grad school applications, I had a few goals in mind: make it visually interesting, keep it professional, and most importantly, make it easy to update with new projects and blog posts. Here's how I built it."
+    },
+    {
+      "type": "heading",
+      "text": "The Design Vision"
+    },
+    {
+      "type": "text",
+      "text": "This website has been through many phases. I knew from the start I wanted to create something that I found visually intresting but I wasn't sure about the best way to go about it. My origional Idea was to create a website that looked like a computer desktop but I decided to scrap this idea beause I felt like it would be confusing to navigate."
+    },
+    {
+      "type": "text",
+      "text": "Eventually I landed on an animated gradient background mainly because I think gradients are funny. They are both eye-catching without being distracting or a pain to look at. The colors I chose for the gradient you are looking at are just colors I thought looked good."
+    },
+    {
+      "type": "image",
+      "src": "images/blog/portfolio-gradient.jpg",
+      "alt": "Animated gradient background",
+      "caption": "The animated gradient that forms the foundation of the site",
+      "width": "full"
+    },
+    {
+      "type": "heading",
+      "text": "The Particle System"
+    },
+    {
+      "type": "text",
+      "text": "I felt after staring at the gradient for a long while that it was lacking some visual intruge and creative expression. I landed on the particle system as I felt it displayed a level of prowess without being difficult to implement or distracting. Each particle moves independently across the canvas, and when particles get close to each other, lines are drawn between them creating an organic looking mesh."
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "code": "// Draw connections between close particles\nfor (let i = 0; i < particles.length; i++) {\n  for (let j = i + 1; j < particles.length; j++) {\n    const dx = particles[i].x - particles[j].x;\n    const dy = particles[i].y - particles[j].y;\n    const distance = Math.sqrt(dx * dx + dy * dy);\n    \n    if (distance < 150) {\n      ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 * (1 - distance / 150)})`;\n      ctx.lineWidth = 1;\n      ctx.beginPath();\n      ctx.moveTo(particles[i].x, particles[i].y);\n      ctx.lineTo(particles[j].x, particles[j].y);\n      ctx.stroke();\n    }\n  }\n}"
+    },
+    {
+      "type": "text",
+      "text": "I feel like I hit the nail on the head with the particles when I made it so that they were semi drawn to the mouse, I feel like this just made it more fun. In the future I am thinking of making the particles do something when a bunch of them accumulate but I havent decided what I want that to be yet."
+    },
+    {
+      "type": "heading",
+      "text": "Content Management"
+    },
+    {
+      "type": "text",
+      "text": "For me this was one of the more difficult parts. To start i am using GitHub Pages for hosting, which means I can't use a traditional database like PostgreSQL which I am more familar with to host things like the blog posts. I needed a way to manage blog posts and projects that was:"
+    },
+    {
+      "type": "text",
+      "text": "1. **Dynamic** - I don't want to create and edit an HTML page every time I write a post"
+    },
+    {
+      "type": "text",
+      "text": "2. **Version controlled** - I wanted edits made to anything on the site to be tracked in Git"
+    },
+    {
+      "type": "text",
+      "text": "3. **Performant** - The site needs to load fast"
+    },
+    {
+      "type": "text",
+      "text": "4. **Static** - No backend or database server, though I could probably find some way to use something like supabase to host the Blog posts I felt like this was just overkill"
+    },
+    {
+      "type": "text",
+      "text": "The solution? A two-file JSON system. I have a lightweight index file with metadata for all posts, and then individual JSON files for each post's full content. This means the blog listing page loads instantly, and full posts are only fetched when needed. This also just keeps everything organized and easily managable."
+    },
+    {
+      "type": "code",
+      "language": "json",
+      "code": "// blog-index.json (lightweight)\n[\n  {\n    \"id\": \"my-post\",\n    \"title\": \"Post Title\",\n    \"date\": \"2025-02-20\",\n    \"description\": \"Brief preview...\",\n    \"tags\": [\"Web Dev\"]\n  }\n]\n\n// posts/my-post.json (full content)\n{\n  \"id\": \"my-post\",\n  \"title\": \"Post Title\",\n  \"content\": [\n    {\"type\": \"text\", \"text\": \"Full post content...\"},\n    {\"type\": \"image\", \"src\": \"...\"},\n    {\"type\": \"code\", \"code\": \"...\"}\n  ]\n}"
+    },
+    {
+      "type": "text",
+      "text": "After this I had to actually create blog posts and content which is pretty fun but there is a lot I want to write about in regards to programming so this part has taken me a rather long time all things considered."
+    },
+    {
+      "type": "heading",
+      "text": "Animations and Interactions"
+    },
+    {
+      "type": "text",
+      "text": "Im going to be honest. My experience with animation in web design is very limited. A lot of the animations I have added to this site come from youtube tutorials or other internet posts. A lot of the animations I added because I saw them somewhere else or I was scrolling on something and thought to my self. That would be fun to add, or that looks good."
+    },
+    {
+      "type": "text",
+      "text": "- **Staggered fade-ins** - Elements appear one by one as you scroll, guiding your eye through the content"
+    },
+    {
+      "type": "text",
+      "text": "- **Hover transforms** - Cards lift and scale slightly to provide tactile feedback"
+    },
+    {
+      "type": "text",
+      "text": "- **Shimmer effects** - A light sweep across project cards draws attention without being obnoxious"
+    },
+    {
+      "type": "text",
+      "text": "- **Smooth scrolling** - Navigation links smoothly scroll to sections instead of jarring jumps"
+    },
+    {
+      "type": "image",
+      "src": "images/blog/portfolio-animations.jpg",
+      "alt": "Animation examples from the portfolio",
+      "caption": "Subtle animations enhance the user experience",
+      "width": "large"
+    },
+    {
+      "type": "text",
+      "text": "All of the ones I listed I believe are cool."
+    },
+    {
+      "type": "heading",
+      "text": "The Hero Banner"
+    },
+    {
+      "type": "text",
+      "text": "The homepage banner was one of the first things that I designed because its one of the first things that you see. I wanted it to make a good first impression so it features:"
+    },
+    {
+      "type": "text",
+      "text": "- A floating logo with my initials that gently bobs up and down. I plan to do something with this later on when I have more free time."
+    },
+    {
+      "type": "text",
+      "text": "- A typewriter effect for my name that plays on page load. I saw this and thought it looked cool."
+    },
+    {
+      "type": "text",
+      "text": "- An animated scroll indicator that bounces to show there's more content below. This was added for the same reason as the type writer effect, I thought it would be cool."
+    },
+    {
+      "type": "text",
+      "text": "This part of the page was probably the part of the website I ruminated on the most. I even bothered to try out different fonts and I believe that it looks good."
+    },
+    {
+      "type": "heading",
+      "text": "Technical Stack"
+    },
+    {
+      "type": "text",
+      "text": "I have a personal philosphy that simplicty is often key so I deliberately kept the tech stack minimal:"
+    },
+    {
+      "type": "text",
+      "text": "- **Vanilla JavaScript** - No React, Vue, or Angular. Just plain JS with fetch() and DOM manipulation."
+    },
+    {
+      "type": "text",
+      "text": "- **Tailwind CSS via CDN** - For utility classes without a build step"
+    },
+    {
+      "type": "text",
+      "text": "- **Highlight.js** - For syntax highlighting in blog posts"
+    },
+    {
+      "type": "text",
+      "text": "- **JSON files** - For content management instead of a database"
+    },
+    {
+      "type": "text",
+      "text": "- **GitHub Pages** - Free hosting with automatic deployments"
+    },
+    {
+      "type": "text",
+      "text": "The best part about this truthfully is that the entire site works by just opening the HTML files in a browser (with a local server for fetch() to work). This simplicity makes it easy for me to work on the sight which motivates me and makes it fun to work on (Which is important for a project like this)."
+    },
+    {
+      "type": "heading",
+      "text": "Lessons Learned"
+    },
+    {
+      "type": "text",
+      "text": "**1. Start with structure, then add flair** - I built a basic version first, then layered in animations and effects. This allowed me to experiment freely and enjoy myself."
+    },
+    {
+      "type": "text",
+      "text": "**2. Mobile matters** - Everything I did for mobile support for this sight was an after thought, this was probably not the right appreach in the year 2026."
+    },
+    {
+      "type": "text",
+      "text": "**3. Separate content from presentation** - Using JSON files means I can redesign the entire site without touching my blog posts and easily edit my blog posts with outworrying about the site. This separation is crucial for easy produciton for this site."
+    },
+    {
+      "type": "text",
+      "text": "**4. Simplicity is Key** - For me it's important to work with what I know and to make my personal site for me"
+    },
+    {
+      "type": "heading",
+      "text": "What's Next"
+    },
+    {
+      "type": "text",
+      "text": "I'm planning to add a few more features:"
+    },
+    {
+      "type": "text",
+      "text": "- **Dark/light mode toggle** - You have to have it"
+    },
+    {
+      "type": "text",
+      "text": "- **Search functionality** - As I add more blog posts, being able to search by tag or keyword would be useful"
+    },
+    {
+      "type": "text",
+      "text": "- **More Blog Posts** - There are many more blog posts to write and add after this one."
+    },
+    {
+      "type": "text",
+      "text": "- **Analytics** - This is just something that I think is fun"
+    },
+    {
+      "type": "text",
+      "text": "But for now, I'm happy with how it turned out. It's personal, professional, and actually enjoyable to update with new content."
+    },
+    {
+      "type": "heading",
+      "text": "Try It Yourself"
+    },
+    {
+      "type": "text",
+      "text": "The entire site is open source on my GitHub. If you're building your own portfolio, feel free to use this as a starting point. The JSON-based content system makes it really easy to adapt to your own projects and writing style."
+    },
+    {
+      "type": "text",
+      "text": "And hey, if you end up using this approach, I'd love to hear about it!"
+    }
+  ]
+}

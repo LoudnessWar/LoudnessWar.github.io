@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Blog Post | Aiden Lara</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <style>
+        /* Gradient Background */
+        .gradient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #461719, #7f5fff, #008cff, #fd5760);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            z-index: -2;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            padding-top: 80px;
+        }
+
+        nav {
+            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.4);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-link {
+            position: relative;
+            padding-bottom: 4px;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Blog post container */
+        .blog-post-container {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Content styles */
+        .post-content h2 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .post-content p {
+            font-size: 1.125rem;
+            line-height: 1.75;
+            margin-bottom: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .post-content img {
+            border-radius: 8px;
+            margin: 2rem auto;
+            display: block;
+            max-width: 100%;
+        }
+
+        .post-content img.full-width {
+            width: 100%;
+        }
+
+        .post-content img.large-width {
+            width: 85%;
+        }
+
+        .post-content img.medium-width {
+            width: 60%;
+        }
+
+        .post-content img.small-width {
+            width: 40%;
+        }
+
+        .image-caption {
+            text-align: center;
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: -1rem;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        .post-content pre {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin: 2rem 0;
+        }
+
+        .post-content code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin: 2px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #60a5fa;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .back-link:hover {
+            color: #93c5fd;
+            gap: 12px;
+        }
+
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body class="text-white">
+    <div class="gradient-bg"></div>
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50">
+        <div class="max-w-6xl mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="text-2xl font-bold hover:text-gray-300">Aiden Lara</a>
+                <div class="flex items-center space-x-8">
+                    <a href="index.html#about" class="nav-link hover:text-gray-300">About</a>
+                    <a href="projects.html" class="nav-link hover:text-gray-300">Projects</a>
+                    <a href="blog.html" class="nav-link hover:text-gray-300">Blog</a>
+                    <a href="index.html#resume" class="nav-link hover:text-gray-300">Resume</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-5xl mx-auto px-6 py-12">
+        <a href="blog.html" class="back-link">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+            Back to All Posts
+        </a>
+
+        <div id="blog-post-container" class="blog-post-container fade-in">
+            <!-- Loading spinner -->
+            <div class="text-center py-12">
+                <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
+                <p class="mt-4 text-gray-300">Loading post...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-black/20 py-6 text-center border-t border-white/10 mt-16">
+        <p class="text-gray-300">© 2025 Aiden Lara. Built with passion and code.</p>
+        <p class="text-gray-400 text-sm mt-1">Let's build something amazing together!</p>
+    </footer>
+
+    <script src="background_particles.js"></script>
+    <script>
+        // Load blog post
+        async function loadBlogPost() {
+            try {
+                // Get post ID from URL parameter
+                const urlParams = new URLSearchParams(window.location.search);
+                const postId = urlParams.get('id');
+
+
+                //Look!!!
+                if (!postId) {
+                    window.location.href = 'blog.html';
+                    return;
+                }
+
+                // const response = await fetch('blog-metadata.json');
+                // const posts = await response.json();
+                
+                // const post = posts.find(p => p.id === postId);
+
+                const response = await fetch(`blog_posts/${postId}.json`);
+                const post = await response.json();
+                
+                if (!post) {
+                    document.getElementById('blog-post-container').innerHTML = `
+                        <div class="text-center py-12">
+                            <p class="text-red-300">Post not found.</p>
+                            <a href="blog.html" class="text-blue-300 hover:text-blue-200 mt-4 inline-block">Back to Blog</a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Update page title
+                document.getElementById('page-title').textContent = `${post.title} | Aiden Lara`;
+                
+                const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                
+                const tags = post.tags.map(tag => 
+                    `<span class="tag">${tag}</span>`
+                ).join('');
+
+                // Build content HTML
+                let contentHTML = '';
+                if (post.content && Array.isArray(post.content)) {
+                    post.content.forEach(block => {
+                        switch(block.type) {
+                            case 'text':
+                                contentHTML += `<p>${block.text}</p>`;
+                                break;
+                            case 'heading':
+                                contentHTML += `<h2>${block.text}</h2>`;
+                                break;
+                            case 'image':
+                                const widthClass = block.width === 'full' ? 'full-width' : 
+                                                  block.width === 'large' ? 'large-width' :
+                                                  block.width === 'medium' ? 'medium-width' : 'small-width';
+                                contentHTML += `
+                                    <img src="${block.src}" alt="${block.alt}" class="${widthClass}" />
+                                    ${block.caption ? `<p class="image-caption">${block.caption}</p>` : ''}
+                                `;
+                                break;
+                            case 'code':
+                                contentHTML += `
+                                    <pre><code class="language-${block.language || 'javascript'}">${escapeHtml(block.code)}</code></pre>
+                                `;
+                                break;
+                        }
+                    });
+                } else {
+                    // Fallback if no content array
+                    contentHTML = `<p>${post.description}</p>`;
+                }
+                
+                const postHTML = `
+                    <div class="mb-6">
+                        <h1 class="text-4xl font-bold mb-4">${post.title}</h1>
+                        <div class="flex flex-wrap items-center gap-4 mb-6 text-gray-300">
+                            <span>${formattedDate}</span>
+                            <span>•</span>
+                            <span>${post.readTime}</span>
+                        </div>
+                        <div class="mb-8">
+                            ${tags}
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        ${contentHTML}
+                    </div>
+                `;
+                
+                document.getElementById('blog-post-container').innerHTML = postHTML;
+
+                // Apply syntax highlighting
+                document.querySelectorAll('pre code').forEach((block) => {
+                    hljs.highlightElement(block);
+                });
+
+            } catch (error) {
+                console.error('Error loading blog post:', error);
+                document.getElementById('blog-post-container').innerHTML = `
+                    <div class="text-center py-12">
+                        <p class="text-red-300">Error loading post. Please try again later.</p>
+                    </div>
+                `;
+            }
+        }
+
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        // Load post when page loads
+        loadBlogPost();
+    </script>
+</body>
+</html>

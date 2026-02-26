@@ -100,7 +100,7 @@ let angle = 0;
 function frame(){
     const dt = 1/FPS;
     //dz += 1*dt;
-    dy = 5*Math.sin(dt);
+    //dy = 2*Math.sin(dt);
     console.log(dt);
     angle += Math.PI*dt;
     clear();
