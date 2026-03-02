@@ -1,0 +1,117 @@
+This will eventually become a blog post, i am just to lazy to open google docs rn, lol
+
+The Two Sneaky Numbers of Digitville is a leetcode easy. The problem asks you to find two numbers in an array that apprear twice.
+
+For Example [0, 1, 1, 0], the numbers 1 and 0 apprear twice. This problem is an easy for a reason,
+you could probably devise a solution even without a background in computing.
+
+I was honestly just looking for something fun to pass the time with but working on the problem I devised a solution that
+used merge sort which reminded me why I love merge sort.
+
+This made me want to just write a little blip about the solution I came up with.
+
+To start lets look at a simple rust merge sort. When programming I like to code with simplicity, and work
+with what I know not the solutions that someone above my skill level would like divise because like, thats not my
+own thought proccess. It's really easy to copy someone else's code but you dont really learn much. (This is a bigger issue that I
+have with leetcode/AI in general is people really just copying solutions and not actually fundementally understanind the problem but yeah)
+
+Ok so my merge sort
+
+we have a merge_sort which merges the sort
+and a merge which does the actual merging, these are both actually really simple
+but I will still break it down because I personally have struggled a lot in the past to understand merge sort.
+I remember that once I saw like a haskell implementation of merge sort and it was genienly so beautiful like, go look into the haskell
+implementation of merge sort I had a professor show me it and it like blew my mind and completely made merge sort a very transparent like problem to me.
+
+Fundementally merge sort is a depth first algorithm, where you recurssivly split up an array until you have a bunch of sub arrays with only one element in them and
+then you compare the sub arrays and push to a stack(im just calling it a stack for my self its not actually a stack you just push to the end).
+
+Ok like im not great at explaining things or properly presenting my academic idea im going to be honest but basically look at this code and it will
+all make sense. I feel like the most confusing part is this part below because you read about merge sort and no one focus's on the merge they kinda just gloss over it
+but honestly I have always felt like the two most confusing things that obfuscate the ideas of merge sort are how the merge actually works and saves time and
+also that it is not a breath first type of ordeal beacuse a lot of those like examples you see make it look like it is one.
+
+ok so our merge does this
+
+let mut i = 0;
+let mut j = 0;
+
+let mut merged = Vec::new(); //if you dont know rust this is just how you make a vector mut (very simplified) just means that you can change its value
+
+while i < left.len() && j < right.len() {
+    if left[i] < right[j]{
+        merged.push(left[i]);
+        i += 1;
+    } else {
+        merged.push(right[j])
+        j += 1;
+    }
+}
+
+ok so lets just focus on this while loop right now, lets say we have two arrays we want to merge and the values are [0, 2] and [1, 2]
+all the merge actually does is put the smaller number in then increments the pointer. Looking at merge after each loop it goes
+
+compare 0 and 1
+0 is smaller so add 0 to merged
+merged[0]
+increment i by 1
+
+now we are comparing 2 and 1
+1 is smaller so add 1 to merged
+merged[0, 1]
+increment j by 1
+
+ect ect.
+
+you get the idea but your also probably noticing some issues
+
+1. What happens if one loop reaches the end before the other
+2. What happens if our input arrays arn't already sorted
+3. How does this optimize anything
+4. Doesn't merge sort just compare 2 values
+5. There was totally something else that I was thinking new people to merge sort might struggle with but lowkey im forgetting it rn
+
+ok since im blanking on what the third issue was(i remember it was really dumb maybe something about the traversal of the merge sort its self it will probaly come later)
+
+lets just answer the first 2 because they can be explained while everthing else will reveal its self
+
+ok so actually for problem 1 our code is not complete
+you also after the merge do
+
+if i < left.len() {
+    while i < left.len(){
+        merged.push(left[i]);
+        i += 1;
+    }
+}
+
+if j < right.len() {
+    while j < right.len(){
+        merged.push(right[j]);
+        j += 1;
+    }
+}
+
+this just appends whatever was left-over onto the end of the array. OMG your probably saying now but what if 
+what we are appending is not sorted and also what if our arrays were origonally not sorted wouldnt this cause issues.
+yeah this would, if we just look at a single loop of the merge sort our input would need to start off storted to work.
+BUT thats the beauty of the merge sort. The sub arrays are already sorted from the smaller parts that the came from.
+
+EXAMPLE
+[2, 0, 2, 1]
+
+This is the values we were looking at earlier just all in one array unsorted. The first part of merge sort is to split up the array into sub arrays
+until they are of length 1
+
+so it will eventually become
+[2], [0], [2], [1]
+
+eeh but not really
+thats kind of a lie 
+because merge sort is depth first it becomes
+[2, 0] and [2, 1]
+
+then we go deeper into our left branch becoming
+[2] and [0] and [2, 1]
+then since we reached the bottom we would merge [2] and [0]
+giving us [0, 2] (if your confused how this happens look at the while loop we just discussed)
