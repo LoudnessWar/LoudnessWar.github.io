@@ -122,4 +122,5 @@ function frame(){
     setTimeout(frame, 1000/FPS);//le recurssive calls its self after timeout
 }
 
+//hi first frame run
 setTimeout(frame, 1000/FPS);

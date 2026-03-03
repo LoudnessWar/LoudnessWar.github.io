@@ -65,5 +65,41 @@ function screen(p){
 //now... how could we do a more functional approach to this...
 // direction -> apply_velocity -> update_position -> screen -> draw
 
-clear();
-draw_circle(screen({x: 0, y: 0}));
+//looking at this functional approach, we see that in physics systems, though you
+//can take a more functional approach, no one does it so lets not do it either
+
+//so lets create a function to create our ball
+function Circle(x, y, speedX, speedY){
+    this.x_pos = x;
+    this.y_pos = y;
+
+    this.speedX = speedX;
+    this.speedY = speedY;
+}
+
+//ok now lets define our ball
+//hmm my javascript is bad so im going to test if const will allow me to edit Circles position
+let ball = new Circle(0, 0, .1, .1);
+
+function simulate(circle){
+    return {
+        x: circle.x_pos + circle.speedX,
+        y: circle.y_pos + circle.speedY,
+    }
+}
+
+//ok cool so now we move our ball a little when its run with simulate!!!
+//ok but we dont just want a single frame of simulate to run we want multiple frames to run
+//lets define a rate for our frames to happen a frame rate if you will an FPS maybe we can abbreviate it to
+
+const FPS = 60;
+
+function frame(){
+    clear();
+    draw_circle(screen(simulate(ball)));
+    setTimeout(frame, 1000/FPS);
+}
+
+setTimeout(frame, 1000/FPS);
+// clear();
+// draw_circle(screen(simulate(ball)));
