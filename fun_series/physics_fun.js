@@ -47,7 +47,7 @@ function clear(){
 function screen(p){
 
     //I think this is nice to see, the coords become normalized from -1 to 1
-    console.log("x: " + (p.x + 1)/2*CAN.width + "y:" + (1 - (p.y + 1)/2)*CAN.height);
+    //console.log("x: " + (p.x + 1)/2*CAN.width + "y:" + (1 - (p.y + 1)/2)*CAN.height);
     
     //we are not working with integers here like java script not messing around (p.x + 1)/2 if p.x is not 0 or 1 or something and is like .5
     //it know(LOOK BACK AT THIS I COULD BE WRONG) 1.5/2 == to like .75 * 400(the witdth) we get 300
@@ -73,15 +73,80 @@ function Circle(x, y, speedX, speedY){
     this.x_pos = x;
     this.y_pos = y;
 
+
+    //fundementally this is a vector
+    //let me explain
+    //speedX has a direction its the X direction
+    //speedY has a direction as well
+    //these are both scalars, the dot product of these two is the momentum of the
+    //ball
     this.speedX = speedX;
     this.speedY = speedY;
+
+    //we need to edit the position of our object
+    //there are a few ways to do this,
+    //however in my opinion to achieve idomatic ownership of the code
+    //and also to keep generally understandable memory managment
+    //using a function inside the Circle function object is the best practice
+    //(this is me being a rusty tbh)
+
+    this.updatePosition = function() {
+        //console.log("SpeedY update: " + this.speedY);   
+        this.x_pos += this.speedX;//I DIDNT HAVE THIS ON THESE AND IT CREATED A SUPER INTRESING GLITCH, THE FUNCTION IS REMAINING WITH ALL ITS PARAMATERS IN THE STACK LIKE ITS NEVER FREED LIKE ITS AN OBJECT IG BUT IT RETAINS THE PARAMETERS LIKE I DIDNT KNOW IT WOULD DO THIS SO IT WAS USING THE SPEEDX FIRST DEFINED
+        this.y_pos += this.speedY;
+        //console.log("Y_pos update: " + this.y_pos);   
+    }
+
+    this.updateSpeed = function(newSpeedX, newSpeedY){
+        this.speedX = newSpeedX;
+        this.speedY = newSpeedY;
+        console.log("SpeedY: " + this.speedY);    
+    }
+
+    this.setPosition = function(newX, newY) {
+        this.x_pos = newX;
+        this.y_pos = newY;
+    }
 }
 
 //ok now lets define our ball
 //hmm my javascript is bad so im going to test if const will allow me to edit Circles position
-let ball = new Circle(0, 0, .1, .1);
+var ball = new Circle(0, 0, -0.02, -.01);
+var radius = 0.1
 
 function simulate(circle){
+    //console.log(circle.y_pos);
+    if(circle.y_pos <= -1.0 + radius){ //the +0.05 is to simulate the size of the ball
+        //console.log("HIT 1: "  + circle.speedY);
+        if (circle.speedY < 0) {
+            //console.log("HIT 2");
+            circle.updateSpeed(circle.speedX, -circle.speedY);
+        }
+        //circle.speedY = -circle.speedY;
+    }
+
+    if (circle.y_pos >= 1.0  - radius) {
+        if (circle.speedY > 0) {
+            circle.updateSpeed(circle.speedX, -circle.speedY);
+        }
+    }
+
+    if(circle.x_pos <= -1.0 + radius){
+        //console.log("HIT 1: "  + circle.speedY);
+        if (circle.speedX < 0) {
+            //console.log("HIT 2");
+            circle.updateSpeed(-circle.speedX, circle.speedY);
+        }
+        //circle.speedY = -circle.speedY;
+    }
+
+    if(circle.x_pos >= 1.0 - radius){
+        if (circle.speedX > 0) {
+            circle.updateSpeed(-circle.speedX, circle.speedY);
+        }
+    }
+
+    circle.updatePosition();
     return {
         x: circle.x_pos + circle.speedX,
         y: circle.y_pos + circle.speedY,
