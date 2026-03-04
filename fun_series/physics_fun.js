@@ -100,7 +100,7 @@ function Circle(x, y, speedX, speedY){
     this.updateSpeed = function(newSpeedX, newSpeedY){
         this.speedX = newSpeedX;
         this.speedY = newSpeedY;
-        console.log("SpeedY: " + this.speedY);    
+        //console.log("SpeedY: " + this.speedY);    
     }
 
     this.setPosition = function(newX, newY) {
@@ -168,3 +168,68 @@ function frame(){
 setTimeout(frame, 1000/FPS);
 // clear();
 // draw_circle(screen(simulate(ball)));
+
+
+
+
+
+
+//a simultion of the merge of the merge sort
+let arrz = [0, 1, 4, 2, 7];
+console.log(arrz.length / 2);
+let arrz1 = arrz.splice(0, arrz.length / 2);
+let arrz2 = arrz.splice(0, arrz.length);
+
+console.log(arrz1);
+console.log(arrz2);
+
+function merge_sort(arr){
+    if (arr.length == 1){
+        return arr;
+    }
+    let midpoint = arr.length / 2; // 7 / 2 for example is like 3.5 when used but that goes to floor when the first parameter of splice
+    //or maybe the way splice works is like [) right so its inclusive then exclusive? probalby idk that would make sense
+    let arr1 = arr.splice(0, midpoint);
+    let arr2 = arr.splice(0, arr.length);
+
+    let merged1 = merge_sort(arr1);
+    let merged2 = merge_sort(arr2);
+
+    let merged = merge(merged1, merged2);
+    return merged;
+}
+
+function merge(arr1, arr2){
+    let i = 0;
+    let j = 0;
+    let merged = [];
+
+    while (i < arr1.length && j < arr2.length){
+        if (arr1[i] < arr2[j]){
+            merged.push(arr1[i]);
+            i++;
+        } else {
+            merged.push(arr2[j]);
+            j++;
+        }
+    }
+
+    if (i < arr1.length){
+        while (i < arr1.length){
+            merged.push(arr1[i]);
+            i++;
+        }
+    }
+
+    if (j < arr2.length){
+        while (j < arr2.length){
+            merged.push(arr2[j]);
+            j++;
+        }
+    }
+
+    return merged;
+}
+
+arrz = [0, 1, 3, 7, 5, 4, 2, 1, 7 ,0];
+console.log(merge_sort(arrz));
