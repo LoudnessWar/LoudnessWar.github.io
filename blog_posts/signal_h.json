@@ -1,0 +1,50 @@
+{
+  "id": "signal_h",
+  "title": "A explanation of signal.h",
+  "date": "Date",
+  "description": "Description",
+  "tags": ["Tag1", "Tag2", "Tag3"],
+  "readTime": "Around 5 Minutes",
+  "content": [
+    {
+      "type": "heading",
+      "text": "Why I am making this blog post"
+    },
+    {
+      "type": "text",
+      "text": "I wanted to just start off explaining why I am making this blog post. I am making this because the man pages for signal.h didnt really explain what it can do, they just explained how to use it. So I wanted to create this blog post for some one like me who had never really heard of a signal before."
+    },
+    {
+      "type": "text",
+      "text": "I want to"
+    },
+    {
+      "type": "image",
+      "src": "images/blog/whatever.png",
+      "alt": "alt discription",
+      "caption": "a fancy little caption",
+      "width": "full"
+    },
+    {
+      "type": "text",
+      "text": "Text after image"
+    },
+    {
+      "type": "heading",
+      "text": "Code Example Section"
+    },
+    {
+      "type": "text",
+      "text": "Here's some code:"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "code": "// Example of code here\nconst example = 'We gotta use Use \\n for line breaks';\nconsole.log(example);"
+    },
+    {
+      "type": "text",
+      "text": "conclusion paragraph."
+    }
+  ]
+}
