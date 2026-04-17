@@ -31,12 +31,22 @@
   },
   {
     "id": "signal_h",
-    "title": "A explanation of signal.h",
+    "title": "A brief explanation of signal.h",
     "date": "2026-03-16",
     "description": "I am currently touching up my C and systems programming knowledge and I wanted to just talk about signal.h because there isnt much online about it",
     "tags": ["C", "Systems Programming", "Things for me"],
     "readTime": "10 min read",
     "featured": false,
     "order": 4
+  },
+  {
+    "id": "ez_alsa",
+    "title": "A brief explanation of the linux audio architecture",
+    "date": "2026-03-16",
+    "description": "I wanted to make a guitar effects board in C for my guitar and so I spent some time learning about Linux's audio architecture.",
+    "tags": ["C", "Audio Programming", "Things for me", "Linux"],
+    "readTime": "5 min read",
+    "featured": false,
+    "order": 5
   }
 ]

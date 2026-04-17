@@ -1,9 +1,9 @@
 {
   "id": "signal_h",
-  "title": "A explanation of signal.h",
+  "title": "A brief explanation of signal.h",
   "date": "Date",
-  "description": "Description",
-  "tags": ["Tag1", "Tag2", "Tag3"],
+  "description": "A beginner-friendly explanation of how signals work in C and Linux, and how to handle them using signal.h.",
+  "tags": ["C", "Linux", "Systems Programming"],
   "readTime": "Around 5 Minutes",
   "content": [
     {
@@ -12,39 +12,96 @@
     },
     {
       "type": "text",
-      "text": "I wanted to just start off explaining why I am making this blog post. I am making this because the man pages for signal.h didnt really explain what it can do, they just explained how to use it. So I wanted to create this blog post for some one like me who had never really heard of a signal before."
-    },
-    {
-      "type": "text",
-      "text": "I want to"
-    },
-    {
-      "type": "image",
-      "src": "images/blog/whatever.png",
-      "alt": "alt discription",
-      "caption": "a fancy little caption",
-      "width": "full"
-    },
-    {
-      "type": "text",
-      "text": "Text after image"
+      "text": "I wanted to start off by explaining why I am making this blog post. When I first looked at the man pages for signal.h, they didn’t really explain what signals actually are or why they exist. They just showed how to use the functions. So I wanted to create something for people like me who had never really heard of signals before."
     },
     {
       "type": "heading",
-      "text": "Code Example Section"
+      "text": "What is a signal?"
     },
     {
       "type": "text",
-      "text": "Here's some code:"
+      "text": "A signal is a way for the operating system (or another program) to communicate with your program and signal.h is a file for handeling asynchronus events theat your OS sends to your process. I was the one who wrote this and I even think its a little confusing but basically you can think of it like an interrupt that tells your program that something important just happened."
+    },
+    {
+      "type": "text",
+      "text": "Signals are most commonly used to tell a program to stop, pause, continue, or terminate. For example, when you press Ctrl + C in the terminal, the system sends a signal(SIGINT) to the running program telling it to stop. Another one would be dividing by 0 which the OS will tell my program hey you cant do that and send a signal telling it to stop."
+    },
+    {
+      "type": "heading",
+      "text": "Common Signals"
+    },
+    {
+      "type": "text",
+      "text": "Some important signals you will see often are like I stated before SIGINT (interrupt from keyboard, like Ctrl + C), SIGTERM (a request to terminate the program), and SIGKILL (forcefully kills the program immediately)."
+    },
+    {
+      "type": "text",
+      "text": "SIGKILL is special because it cannot be caught or ignored. The operating system will always terminate the program when this signal is received. So when you do Kill -9 12342 it sends a signal to kill process 12342"
+    },
+    {
+      "type": "heading",
+      "text": "How programs use signals"
+    },
+    {
+      "type": "text",
+      "text": "Ok you might be thinking to yourself now, but ctrl+c works on programs that dont include signal.h. Yeah thats because every process already has defauly signal handlers set up by the OS automatically. Usually programs use signals to react to external events and by default many signals will simply terminate the program. So, you only need signal.h if you want to override this behavior and define your own custom response."
+    },
+    {
+      "type": "text",
+      "text": "For example, instead of immediately exiting when Ctrl + C is pressed, you might want to clean up resources, save data, or print a message before exiting."
+    },
+    {
+      "type": "heading",
+      "text": "The kill command"
+    },
+    {
+      "type": "text",
+      "text": "Going back to the kill command to explain a little bit more, In Linux, the kill command is used to send signals to processes."
+    },
+    {
+      "type": "text",
+      "text": "For example, running 'kill -SIGTERM <pid>' sends a termination request, while 'kill -SIGKILL <pid>' forcefully stops the program (it cannot be caught btw because it is completely handled by the OS so that the behavior is garenteed).  You can also send signals like SIGINT or others depending on what behavior you want which is kinda cool."
+    },
+    {
+      "type": "heading",
+      "text": "Handling signals in C"
+    },
+    {
+      "type": "text",
+      "text": "In C, you can use the signal.h library to handle signals. This allows you to override the default behavior and define your own function that runs when a signal is received."
+    },
+    {
+      "type": "text",
+      "text": "This is done using the signal() function, where you pass in the signal type and a handler function."
     },
     {
       "type": "code",
-      "language": "javascript",
-      "code": "// Example of code here\nconst example = 'We gotta use Use \\n for line breaks';\nconsole.log(example);"
+      "language": "c",
+      "code": "#include <stdio.h>\n#include <signal.h>\n#include <stdlib.h>\n\nvoid handle_sigint(int sig) {\n    printf(\"\\nCaught signal %d (Ctrl + C)\\n\", sig);\n    printf(\"Cleaning up before exit...Goodbye!\\n\");\n    exit(0);\n}\n\nint main() {\n    signal(SIGINT, handle_sigint);\n\n    while (1) {\n        printf(\"Running... Press Ctrl + C to trigger signal.\\n\");\n        sleep(1);\n    }\n\n    return 0;\n}"
     },
     {
       "type": "text",
-      "text": "conclusion paragraph."
+      "text": "In this example, instead of immediately terminating, the program runs the handle_sigint function when Ctrl + C is pressed. This gives you full control over how your program exits. Also the sig paramater is sent with the signal."
+    },
+    {
+      "type": "heading",
+      "text": "Why this is useful"
+    },
+    {
+      "type": "text",
+      "text": "Handling signals is extremely useful in real-world programs. It allows you to safely shut down applications, close files, free memory, or save important state before exiting. It can also be used to send a goodbye message when closing a program!"
+    },
+    {
+      "type": "text",
+      "text": "Without signal handling, if you mess up your program could terminate abruptly and not properly close or cause you to lose important data."
+    },
+    {
+      "type": "heading",
+      "text": "Conclusion"
+    },
+    {
+      "type": "text",
+      "text": "Signals are a core part of how programs interact with the operating system in Linux. While they might seem confusing at first, they are essentially just notifications that something happened. Using signal.h, you can take control of these events and make your programs behave more intelligently and safely."
     }
   ]
 }

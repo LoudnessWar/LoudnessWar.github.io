@@ -1,0 +1,82 @@
+{
+  "id": "post-url-slug",
+  "title": "Title",
+  "date": "Date",
+  "description": "Description",
+  "tags": ["Tag1", "Tag2", "Tag3"],
+  "readTime": "X min read or whatever",
+  "content": [
+    {
+      "type": "text",
+      "text": "Audio is really complicated and while I dont have the knowledge to explain everything I can explain what helped me get started as a beginner. So that is what this blog post is."
+    },
+    {
+      "type": "heading",
+      "text": "a section header"
+    },
+    {
+      "type": "text",
+      "text": "I wanted to have fun with my guitar and programming so I decided to make a simple guitar amp for the terminal to have fun with. I had worked with audio before but through heavily abstracted libraries and very specific use cases. So this was my first real look into the world of audio programming."
+    },
+    {
+      "type": "text",
+      "text": "I decided to learn libsound2 which might have been an more complicated pick then what I needed but I felt like it would be something that would teach me a lot. Fir of an audio interface is a device that allows a computer to recieve and send audio data to the outside world"
+    },
+    {
+      "type": "text",
+      "text": "audio data is represented by a stream of bits. The audio interface revieves either an analog(a time varying voltage) or digital signal(constant stream of bits). in either case audio that goes to and from the comuter to the real world needs some sort of transformer. Now what is a transformer you maybe asking. The transformer is the raison d'etre for the audio interface. It is what actually converts audio stream into something the computer can use and vice versa. "
+    },    
+    {
+      "type": "text",
+      "text": "As an audio signal is recieved from the outside world it is converted in to a stream of bits by the audio interface transformer and stored in a hardware buffer. Once the bufer has collected enough data, the interface inturrupts the computer to tell it that the data is ready for it. a similar process happens in reversse for audio output. The audio interface interrupts the computer being like 'HEY!, there is space in the hardware buffer' and the computer then stores information there. the intergace then converst these bits into whatever form is needed to deliver it to the outside world."
+    },
+    {
+      "type": "text",
+      "text": "it is very important to know! the interfaces uses the buffer as a circular buffer. THIS MEANS when it gets to the end of the buffer it continues by wrapping around to the start! Like looking through an array with modulo or smthing. INPUT AND OUTPUT... have seperate hardware buffers parrellely named the capture and the playback buffer."
+    },
+    {
+      "type": "text",
+      "text": "Another thing real quick I want to highlight is PCM or pulse code modulation, which is an uncpompressed raw digital representation of analog audio signals. PCM in the linsound2 is used shorthand for audio rather often."
+    },
+    {
+      "type": "text",
+      "text": "X run is a situation where either a underrun where the interface is trying to get data from the computer but there isnt anything to use so it draws old data left in the hardware buffer. OR b overrun where the interface has data to deliver to the computer but no where to store it so it has to overright the hardware buffer. specifically parts that have not been read/recieved by the computer yet."
+    },
+    {
+      "type": "text",
+      "text": "Ok so real quick I am going to lie to you realy quick for the sake of explaining what libsound2 is. libsound2 is a userspace API for communicating with linux audio subsystem provided by ALSA. For me someone with more graphics programming experience I think of it like this Program -> opengl -> gpudriver -> gpuhardware is equivalent to program -> libasound2 -> ALSAdriver -> audiohardware"
+    },
+    {
+      "type": "text",
+      "text": "Ok so the reason I said I was lieing is because this isnt how it works anymore really. Now modern linux systems use pipewire which is a media server that manages audio (and video) streams on your systems. Things connect to pipewire and pipewire handles the audio graph internally. Pipewire communicates through driver in the linux kernal. Libasound 2 is a userspace API for ALSA nowadays libasound2 ggoes through pipewire and pipewire can handle libasound2 because it was design so that legacy applications would still work. So libasound2 thinks it working with the kernal but its actually just working with pipewire. "
+    },
+    {
+      "type": "image",
+      "src": "images/blog/whatever.png",
+      "alt": "alt discription",
+      "caption": "a fancy little caption",
+      "width": "full"
+    },
+    {
+      "type": "text",
+      "text": "Text after image"
+    },
+    {
+      "type": "heading",
+      "text": "Code Example Section"
+    },
+    {
+      "type": "text",
+      "text": "Here's some code:"
+    },
+    {
+      "type": "code",
+      "language": "javascript",
+      "code": "// Example of code here\nconst example = 'We gotta use Use \\n for line breaks';\nconsole.log(example);"
+    },
+    {
+      "type": "text",
+      "text": "conclusion paragraph."
+    }
+  ]
+}
