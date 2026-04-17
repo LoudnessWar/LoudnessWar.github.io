@@ -1,82 +1,158 @@
 {
-  "id": "post-url-slug",
-  "title": "Title",
-  "date": "Date",
-  "description": "Description",
-  "tags": ["Tag1", "Tag2", "Tag3"],
-  "readTime": "X min read or whatever",
+  "id": "ez_alsa",
+  "title": "Getting Started with Audio Programming (Through Building a Terminal Guitar Amp)",
+  "date": "April 2026",
+  "description": "A beginner-friendly introduction to audio programming concepts through building a simple terminal-based guitar amp using ALSA.",
+  "tags": ["Audio Programming", "ALSA", "C", "Linux"],
+  "readTime": "6–8 min read",
   "content": [
     {
       "type": "text",
-      "text": "Audio is really complicated and while I dont have the knowledge to explain everything I can explain what helped me get started as a beginner. So that is what this blog post is."
+      "text": "Audio programming is really complicated, and I definitely don’t know enough to explain everything. But I can explain what helped me get started. That’s what this post is — just the things that finally made stuff click for me."
     },
     {
       "type": "heading",
-      "text": "a section header"
+      "text": "Why I Started This"
     },
     {
       "type": "text",
-      "text": "I wanted to have fun with my guitar and programming so I decided to make a simple guitar amp for the terminal to have fun with. I had worked with audio before but through heavily abstracted libraries and very specific use cases. So this was my first real look into the world of audio programming."
+      "text": "I wanted to do something fun with both guitar and programming, so I decided to build a simple guitar amp in the terminal. I had worked with audio before, but only through really abstracted libraries where you don’t see what’s actually going on."
     },
     {
       "type": "text",
-      "text": "I decided to learn libsound2 which might have been an more complicated pick then what I needed but I felt like it would be something that would teach me a lot. Fir of an audio interface is a device that allows a computer to recieve and send audio data to the outside world"
+      "text": "This was my first time actually dealing with audio at a lower level. I ended up using libasound2 (ALSA), which was probably more complicated than I needed, but it forced me to actually understand what was happening."
+    },
+    {
+      "type": "heading",
+      "text": "What an Audio Interface Actually Does"
     },
     {
       "type": "text",
-      "text": "audio data is represented by a stream of bits. The audio interface revieves either an analog(a time varying voltage) or digital signal(constant stream of bits). in either case audio that goes to and from the comuter to the real world needs some sort of transformer. Now what is a transformer you maybe asking. The transformer is the raison d'etre for the audio interface. It is what actually converts audio stream into something the computer can use and vice versa. "
-    },    
-    {
-      "type": "text",
-      "text": "As an audio signal is recieved from the outside world it is converted in to a stream of bits by the audio interface transformer and stored in a hardware buffer. Once the bufer has collected enough data, the interface inturrupts the computer to tell it that the data is ready for it. a similar process happens in reversse for audio output. The audio interface interrupts the computer being like 'HEY!, there is space in the hardware buffer' and the computer then stores information there. the intergace then converst these bits into whatever form is needed to deliver it to the outside world."
+      "text": "An audio interface is just a device that lets your computer send and receive audio. The important part is that audio in the real world is analog (a continuously changing voltage), but computers only understand digital data (bits)."
     },
     {
       "type": "text",
-      "text": "it is very important to know! the interfaces uses the buffer as a circular buffer. THIS MEANS when it gets to the end of the buffer it continues by wrapping around to the start! Like looking through an array with modulo or smthing. INPUT AND OUTPUT... have seperate hardware buffers parrellely named the capture and the playback buffer."
+      "text": "So something has to convert between those two worlds. That’s basically the entire job of the interface."
+    },
+    {
+      "type": "heading",
+      "text": "Buffers (This Is Where Things Start Making Sense)"
     },
     {
       "type": "text",
-      "text": "Another thing real quick I want to highlight is PCM or pulse code modulation, which is an uncpompressed raw digital representation of analog audio signals. PCM in the linsound2 is used shorthand for audio rather often."
+      "text": "When audio comes in from something like a guitar, the interface converts it into digital data and stores it in a hardware buffer. Once enough data is collected, it interrupts the computer and says “hey, come grab this.”"
     },
     {
       "type": "text",
-      "text": "X run is a situation where either a underrun where the interface is trying to get data from the computer but there isnt anything to use so it draws old data left in the hardware buffer. OR b overrun where the interface has data to deliver to the computer but no where to store it so it has to overright the hardware buffer. specifically parts that have not been read/recieved by the computer yet."
+      "text": "For output, it’s the opposite. The interface says “hey, I have space,” and the computer fills the buffer with audio data."
     },
     {
       "type": "text",
-      "text": "Ok so real quick I am going to lie to you realy quick for the sake of explaining what libsound2 is. libsound2 is a userspace API for communicating with linux audio subsystem provided by ALSA. For me someone with more graphics programming experience I think of it like this Program -> opengl -> gpudriver -> gpuhardware is equivalent to program -> libasound2 -> ALSAdriver -> audiohardware"
+      "text": "One important thing: these buffers are circular. So when they reach the end, they wrap back around to the beginning. It’s basically like indexing an array with modulo."
     },
     {
       "type": "text",
-      "text": "Ok so the reason I said I was lieing is because this isnt how it works anymore really. Now modern linux systems use pipewire which is a media server that manages audio (and video) streams on your systems. Things connect to pipewire and pipewire handles the audio graph internally. Pipewire communicates through driver in the linux kernal. Libasound 2 is a userspace API for ALSA nowadays libasound2 ggoes through pipewire and pipewire can handle libasound2 because it was design so that legacy applications would still work. So libasound2 thinks it working with the kernal but its actually just working with pipewire. "
+      "text": "Also, input and output are completely separate — you have a capture buffer and a playback buffer running at the same time."
+    },
+    {
+      "type": "heading",
+      "text": "PCM (You’ll See This Everywhere)"
+    },
+    {
+      "type": "text",
+      "text": "PCM stands for Pulse Code Modulation. It’s just raw, uncompressed digital audio. In ALSA, \"PCM\" basically just means \"audio stream\" most of the time."
+    },
+    {
+      "type": "heading",
+      "text": "XRUNs (aka When Everything Breaks)"
+    },
+    {
+      "type": "text",
+      "text": "An XRUN is when your program can’t keep up with the audio stream in real time."
+    },
+    {
+      "type": "text",
+      "text": "Underrun: playback needs data, but there isn’t any ready.\nOverrun: input has data, but there’s nowhere to put it."
+    },
+    {
+      "type": "text",
+      "text": "Both of these usually mean glitches, popping, or just broken audio."
+    },
+    {
+      "type": "heading",
+      "text": "Where ALSA Fits"
+    },
+    {
+      "type": "text",
+      "text": "The way I think about ALSA is kind of like how OpenGL fits in graphics."
+    },
+    {
+      "type": "text",
+      "text": "Program → libasound2 → ALSA → audio hardware"
+    },
+    {
+      "type": "text",
+      "text": "That’s not exactly how it works anymore, but it’s a useful mental model starting out."
+    },
+    {
+      "type": "heading",
+      "text": "Modern Linux Audio (PipeWire)"
+    },
+    {
+      "type": "text",
+      "text": "In reality, most modern Linux systems use PipeWire now. It sits in the middle and manages all audio (and video) streams."
+    },
+    {
+      "type": "text",
+      "text": "So what’s actually happening is more like:"
+    },
+    {
+      "type": "text",
+      "text": "Program → libasound2 → PipeWire → kernel driver → hardware"
+    },
+    {
+      "type": "text",
+      "text": "The reason your ALSA code still works is because PipeWire is designed to support it."
     },
     {
       "type": "image",
       "src": "images/blog/whatever.png",
-      "alt": "alt discription",
-      "caption": "a fancy little caption",
+      "alt": "Audio pipeline diagram",
+      "caption": "A simplified view of the modern Linux audio pipeline.",
       "width": "full"
     },
     {
-      "type": "text",
-      "text": "Text after image"
-    },
-    {
       "type": "heading",
-      "text": "Code Example Section"
+      "text": "Actually Opening an Audio Stream (ALSA)"
     },
     {
       "type": "text",
-      "text": "Here's some code:"
+      "text": "Here’s a stripped down version of what setting up an audio capture stream looks like with ALSA. This is basically the point where all the concepts above start turning into something real."
     },
     {
       "type": "code",
-      "language": "javascript",
-      "code": "// Example of code here\nconst example = 'We gotta use Use \\n for line breaks';\nconsole.log(example);"
+      "language": "c",
+      "code": "#include <alsa/asoundlib.h>\n\nstatic snd_pcm_t *audio_handle = NULL;\n\nvoid setup_audio() {\n    snd_pcm_open(&audio_handle, \"default\", SND_PCM_STREAM_CAPTURE, 0);\n\n    snd_pcm_hw_params_t *params;\n    snd_pcm_hw_params_alloca(&params);\n    snd_pcm_hw_params_any(audio_handle, params);\n\n    snd_pcm_hw_params_set_access(audio_handle, params, SND_PCM_ACCESS_RW_INTERLEAVED);\n    snd_pcm_hw_params_set_format(audio_handle, params, SND_PCM_FORMAT_S16_LE);\n\n    unsigned int rate = 44100;\n    snd_pcm_hw_params_set_rate_near(audio_handle, params, &rate, 0);\n\n    snd_pcm_hw_params_set_channels(audio_handle, params, 1);\n\n    snd_pcm_hw_params(audio_handle, params);\n}"
     },
     {
       "type": "text",
-      "text": "conclusion paragraph."
+      "text": "What this is doing is basically telling ALSA how you want to talk to the hardware:\n- interleaved data\n- 16-bit samples\n- 44.1kHz sample rate\n- mono input"
+    },
+    {
+      "type": "text",
+      "text": "After this, you can start reading from the capture buffer and actually processing audio."
+    },
+    {
+      "type": "heading",
+      "text": "Conclusion"
+    },
+    {
+      "type": "text",
+      "text": "This stuff felt super confusing at first, especially all the buffer and system-level details. But once I understood how data actually moves — from the guitar, into a buffer, into my program — it started to feel way more manageable."
+    },
+    {
+      "type": "text",
+      "text": "I’m still figuring a lot of this out, but building something small like a terminal guitar amp made it way easier to learn than just reading docs."
     }
   ]
 }
