@@ -1,6 +1,6 @@
 [
   {
-    "id": "first_post",
+    "id": "building-this-portfolio",
     "title": "Working on this website (or the manual insertion of the most recent blog post)",
     "date": "2026-02-20",
     "description": "A behind the scenes look at the development of this website, including the design choices, technologies used, and challenges faced along the way.",
@@ -48,5 +48,25 @@
     "readTime": "5 min read",
     "featured": false,
     "order": 5
+  },
+  {
+    "id": "ncurses_basic",
+    "title": "Getting Started with ncurses",
+    "date": "2026-04-12",
+    "description": "A beginner-friendly explanation of how ncurses works and how to think about windows, screens, and drawing to the terminal.",
+    "tags": ["C", "ncurses", "Things for me", "Terminal UI"],
+    "readTime": "6 min read",
+    "featured": false,
+    "order": 6
+  },
+  {
+    "id": "merge-sort-digitville",
+    "title": "Merge Sort, LeetCode, and Why I Still Think This Stuff Is Cool",
+    "date": "January 2 2026",
+    "description": "A casual breakdown of a LeetCode problem and how it led into rethinking merge sort from scratch in Rust.",
+    "tags": ["Rust", "Algorithms", "Merge Sort", "LeetCode"],
+    "readTime": "6–8 min read",
+    "featured": false,
+    "order": 7
   }
 ]

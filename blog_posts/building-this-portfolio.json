@@ -20,14 +20,7 @@
     },
     {
       "type": "text",
-      "text": "Eventually I landed on an animated gradient background mainly because I think gradients are funny. They are both eye-catching without being distracting or a pain to look at. The colors I chose for the gradient you are looking at are just colors I thought looked good."
-    },
-    {
-      "type": "image",
-      "src": "images/blog/portfolio-gradient.jpg",
-      "alt": "Animated gradient background",
-      "caption": "The animated gradient that forms the foundation of the site",
-      "width": "full"
+      "text": "Eventually I landed on an animated gradient background mainly because I think gradients are funny (I dont really feel like explaining why I find gradients funny but factually I just find them funny), but also because they are both eye-catching without being distracting or a pain to look at. The colors I chose for the gradient you are looking at are just colors I thought looked good."
     },
     {
       "type": "heading",
@@ -108,15 +101,8 @@
       "text": "- **Smooth scrolling** - Navigation links smoothly scroll to sections instead of jarring jumps"
     },
     {
-      "type": "image",
-      "src": "images/blog/portfolio-animations.jpg",
-      "alt": "Animation examples from the portfolio",
-      "caption": "Subtle animations enhance the user experience",
-      "width": "large"
-    },
-    {
       "type": "text",
-      "text": "All of the ones I listed I believe are cool."
+      "text": "All of the ones I listed I believe are cool so go check them out on the home page."
     },
     {
       "type": "heading",

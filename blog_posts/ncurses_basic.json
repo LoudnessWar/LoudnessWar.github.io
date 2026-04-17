@@ -1,0 +1,163 @@
+{
+  "id": "ncurses_basic",
+  "title": "Getting Started with ncurses",
+  "date": "April 12, 2026",
+  "description": "A beginner-friendly explanation of how ncurses works and how to think about windows, screens, and drawing to the terminal.",
+  "tags": ["C", "ncurses", "Terminal UI"],
+  "readTime": "5–7 min read",
+  "content": [
+    {
+      "type": "text",
+      "text": "Alright so first question: what even is ncurses?"
+    },
+    {
+      "type": "text",
+      "text": "ncurses is a C library for building text-based user interfaces in the terminal. Instead of just printing lines of text, it lets you control exactly where things go on the screen, update parts of the screen efficiently, and handle input in a cleaner way."
+    },
+    {
+      "type": "heading",
+      "text": "Windows vs Screens (The Important Mental Model)"
+    },
+    {
+      "type": "text",
+      "text": "ncurses has this idea of \"windows\", and this is where things can get confusing at first."
+    },
+    {
+      "type": "text",
+      "text": "A window is basically a data structure that represents a region of the screen. You draw into a window first — not directly to the terminal."
+    },
+    {
+      "type": "text",
+      "text": "The actual terminal display gets updated later when you call refresh functions. So you can think of windows as buffers or scratchpads."
+    },
+    {
+      "type": "text",
+      "text": "There are two important built-in windows:"
+    },
+    {
+      "type": "text",
+      "text": "stdscr: the default window you usually draw to.\ncurscr: ncurses' internal representation of what is currently on the physical screen."
+    },
+    {
+      "type": "text",
+      "text": "You generally never touch curscr directly. ncurses uses it internally to figure out what changed so it can update the terminal efficiently."
+    },
+    {
+      "type": "heading",
+      "text": "How Drawing Actually Works"
+    },
+    {
+      "type": "text",
+      "text": "The flow looks like this:"
+    },
+    {
+      "type": "text",
+      "text": "1. You modify a window (usually stdscr)\n2. You call refresh() (or wrefresh for a specific window)\n3. ncurses compares the window to curscr and updates the real terminal"
+    },
+    {
+      "type": "text",
+      "text": "So stdscr is basically \"what you want the screen to look like next\", and curscr is \"what the screen currently looks like\"."
+    },
+    {
+      "type": "heading",
+      "text": "Function Naming (This Helps a Lot)"
+    },
+    {
+      "type": "text",
+      "text": "ncurses function names follow a really consistent pattern once you notice it."
+    },
+    {
+      "type": "text",
+      "text": "addch(ch) → adds a character to stdscr\nwaddch(win, ch) → adds a character to a specific window"
+    },
+    {
+      "type": "text",
+      "text": "If a function starts with w, it means you're working with a specific window instead of stdscr."
+    },
+    {
+      "type": "text",
+      "text": "Same idea with movement:"
+    },
+    {
+      "type": "text",
+      "text": "move(y, x);\naddch(ch);"
+    },
+    {
+      "type": "text",
+      "text": "is the same as:"
+    },
+    {
+      "type": "text",
+      "text": "mvaddch(y, x, ch);"
+    },
+    {
+      "type": "text",
+      "text": "And if you want both a window and movement:"
+    },
+    {
+      "type": "text",
+      "text": "mvwaddch(win, y, x, ch);"
+    },
+    {
+      "type": "text",
+      "text": "The order is always mv + w + function name (mvw...), not the other way around."
+    },
+    {
+      "type": "heading",
+      "text": "Coordinates (y, x not x, y)"
+    },
+    {
+      "type": "text",
+      "text": "ncurses uses (y, x) instead of (x, y)."
+    },
+    {
+      "type": "text",
+      "text": "So the first value is the row (vertical), and the second is the column (horizontal). This trips people up a lot at first."
+    },
+    {
+      "type": "heading",
+      "text": "Return Values and Small Things"
+    },
+    {
+      "type": "text",
+      "text": "A couple small but useful things:"
+    },
+    {
+      "type": "text",
+      "text": "Most ncurses functions return either OK (0) or ERR (-1), so you can check if something failed."
+    },
+    {
+      "type": "text",
+      "text": "ncurses also defines a boolean type (bool), which is nice in plain C."
+    },
+    {
+      "type": "heading",
+      "text": "A Simple Example"
+    },
+    {
+      "type": "text",
+      "text": "Here’s a tiny example that shows the basic flow:"
+    },
+    {
+      "type": "code",
+      "language": "c",
+      "code": "#include <ncurses.h>\n\nint main() {\n    initscr();            // start ncurses\n    noecho();             // don't print typed characters\n    cbreak();             // disable line buffering\n\n    mvaddch(5, 10, 'A');  // move and draw\n\n    refresh();            // push changes to screen\n    getch();              // wait for input\n\n    endwin();             // clean up\n    return 0;\n}"
+    },
+    {
+      "type": "text",
+      "text": "The important part is that nothing actually shows up until refresh() is called."
+    },
+    {
+      "type": "heading",
+      "text": "Conclusion"
+    },
+    {
+      "type": "text",
+      "text": "ncurses feels weird at first because you're not drawing directly to the screen. Once you realize everything goes through a window first and then gets flushed with refresh(), it starts to make a lot more sense."
+    },
+    {
+      "type": "text",
+      "text": "After that, it’s mostly just getting used to the function naming and remembering that everything is (y, x)."
+    }
+  ]
+}

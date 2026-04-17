@@ -1,0 +1,172 @@
+{
+  "id": "merge-sort-digitville",
+  "title": "Merge Sort, LeetCode, and Why I Still Think This Stuff Is Cool",
+  "date": "January 2 2026",
+  "description": "A casual breakdown of a LeetCode problem and how it led into rethinking merge sort from scratch in Rust.",
+  "tags": ["Rust", "Algorithms", "Merge Sort", "LeetCode"],
+  "readTime": "6–8 min read",
+  "content": [
+    {
+      "type": "text",
+      "text": "The Two Sneaky Numbers of Digitville is a LeetCode easy. The problem basically asks you to find two numbers in an array that appear twice."
+    },
+    {
+      "type": "text",
+      "text": "For example: [0, 1, 1, 0]. The numbers 0 and 1 both appear twice. It’s an easy problem for a reason — you could probably come up with a solution without even really knowing much about computer science."
+    },
+    {
+      "type": "text",
+      "text": "I wasn’t really trying to grind LeetCode or anything, I just wanted something fun to pass the time. But while working on it, I ended up thinking about merge sort again, which honestly reminded me why I like it in the first place."
+    },
+    {
+      "type": "text",
+      "text": "So this turned into me just writing down my thought process and the version of merge sort I ended up using."
+    },
+    {
+      "type": "heading",
+      "text": "My Relationship with Merge Sort"
+    },
+    {
+      "type": "text",
+      "text": "When I code, I usually try to stick with simplicity. I don’t like jumping straight to solutions that feel like they come from someone way above my skill level. Not because they’re bad, but because I don’t actually learn anything that way."
+    },
+    {
+      "type": "text",
+      "text": "And yeah — this is also where I kind of struggle with LeetCode (and honestly AI-assisted coding too). It’s really easy to just copy a solution and move on, but then you don’t actually understand what’s happening."
+    },
+    {
+      "type": "text",
+      "text": "Anyway, merge sort was one of those algorithms that clicked for me at some point, and I still think it’s kind of beautiful."
+    },
+    {
+      "type": "heading",
+      "text": "A Simple Mental Model of Merge Sort"
+    },
+    {
+      "type": "text",
+      "text": "At its core, merge sort is a depth-first algorithm. You recursively split an array until every sub-array has just one element. At that point, everything is trivially sorted."
+    },
+    {
+      "type": "text",
+      "text": "Then you start merging those small arrays back together in sorted order."
+    },
+    {
+      "type": "text",
+      "text": "The part that always gets skipped over in explanations is the merge step itself — but that’s actually where most of the logic lives."
+    },
+    {
+      "type": "heading",
+      "text": "The Merge Step (The Important Part)"
+    },
+    {
+      "type": "text",
+      "text": "The merge function is actually pretty simple. You keep two pointers, one for each array, and repeatedly take the smaller value."
+    },
+    {
+      "type": "code",
+      "language": "rust",
+      "code": "let mut i = 0;\nlet mut j = 0;\n\nlet mut merged = Vec::new();\n\nwhile i < left.len() && j < right.len() {\n    if left[i] < right[j] {\n        merged.push(left[i]);\n        i += 1;\n    } else {\n        merged.push(right[j]);\n        j += 1;\n    }\n}"
+    },
+    {
+      "type": "text",
+      "text": "So if we take two arrays like:\n[left] = [0, 2]\n[right] = [1, 2]"
+    },
+    {
+      "type": "text",
+      "text": "The merge process looks like this:"
+    },
+    {
+      "type": "text",
+      "text": "Compare 0 and 1 → take 0\nmerged = [0]\n\nCompare 2 and 1 → take 1\nmerged = [0, 1]\n\nCompare 2 and 2 → take either\nmerged = [0, 1, 2]"
+    },
+    {
+      "type": "heading",
+      "text": "What About the Remaining Elements?"
+    },
+    {
+      "type": "text",
+      "text": "The loop stops when one array runs out, but you still need to handle whatever is left in the other array."
+    },
+    {
+      "type": "code",
+      "language": "rust",
+      "code": "while i < left.len() {\n    merged.push(left[i]);\n    i += 1;\n}\n\nwhile j < right.len() {\n    merged.push(right[j]);\n    j += 1;\n}"
+    },
+    {
+      "type": "text",
+      "text": "This works because the leftover elements are already sorted. That’s the key idea people usually miss at first."
+    },
+    {
+      "type": "heading",
+      "text": "So Why Doesn’t This Break?"
+    },
+    {
+      "type": "text",
+      "text": "A few natural questions come up here:"
+    },
+    {
+      "type": "text",
+      "text": "1. What if one side finishes early?\n2. What if the input arrays aren’t sorted?\n3. Why does this actually improve performance?"
+    },
+    {
+      "type": "text",
+      "text": "The answer to (1) is exactly what those leftover loops handle — you just append the remaining elements."
+    },
+    {
+      "type": "text",
+      "text": "For (2), yes — merge assumes both inputs are already sorted. But that’s where the recursion comes in."
+    },
+    {
+      "type": "heading",
+      "text": "3. Why Merge Sort Actually Works"
+    },
+    {
+      "type": "text",
+      "text": "Let’s take an unsorted array like:"
+    },
+    {
+      "type": "text",
+      "text": "[2, 0, 2, 1]"
+    },
+    {
+      "type": "text",
+      "text": "Merge sort doesn’t try to sort it all at once. It keeps splitting it:"
+    },
+    {
+      "type": "text",
+      "text": "[2, 0, 2, 1]\n→ [2, 0] and [2, 1]\n→ [2], [0], [2], [1]"
+    },
+    {
+      "type": "text",
+      "text": "Once you reach single elements, those are already sorted by definition."
+    },
+    {
+      "type": "text",
+      "text": "Then merging starts happening bottom-up:"
+    },
+    {
+      "type": "text",
+      "text": "[2] + [0] → [0, 2]\n[2] + [1] → [1, 2]\n\nThen finally:\n[0, 2] + [1, 2] → [0, 1, 2, 2]"
+    },
+    {
+      "type": "text",
+      "text": "So the reason merge sort works is because it never merges unsorted arrays. It only ever merges arrays that were already sorted at a smaller scale."
+    },
+    {
+      "type": "heading",
+      "text": "Final Thoughts"
+    },
+    {
+      "type": "text",
+      "text": "I think the most confusing part of merge sort isn’t the recursion — it’s the merge step itself and understanding why it works at all."
+    },
+    {
+      "type": "text",
+      "text": "Once that clicks, the rest of it becomes way more intuitive. I think it feels elegant and its probably my favorite sorting algorithm."
+    },
+    {
+      "type": "text",
+      "text": "The first time I learned it I thought it was so complicated but now Its one of the simplest sorting algorithms I know. Also I apologize that the formating for this post is a little wonky and the bullet points not working I plan to fix this later. But this was just an old test blog post I made a while ago and finally rememeber to add it to the site."
+    }
+  ]
+}
