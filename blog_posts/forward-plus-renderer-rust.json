@@ -1,14 +1,14 @@
 {
   "id": "forward-plus-renderer-rust",
-  "title": "Building a Forward+ Renderer in Rust (and Why I Wrapped OpenGL Like This)",
-  "date": "Date",
+  "title": "Building a Forward+ Renderer in Rust",
+  "date": "2026-03-20",
   "description": "A look at my OpenGL Forward+ renderer in Rust, focusing on design decisions, abstractions, and how the rendering pipeline works.",
   "tags": ["Rust", "OpenGL", "Rendering", "Forward+"],
   "readTime": "8–10 min read",
   "content": [
     {
       "type": "text",
-      "text": "I’ve been working on a renderer in Rust using OpenGL, and this is one of those projects where I kind of just wanted to see how far I could push myself."
+      "text": "I’ve been working on a renderer/game engine in Rust using OpenGL(calling it acrust for now, as in a pizza crust), and this is one of those projects where I kind of just wanted to see how far I could push myself and learn a little bit about rust."
     },
     {
       "type": "text",

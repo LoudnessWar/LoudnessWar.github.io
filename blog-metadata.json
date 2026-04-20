@@ -10,12 +10,12 @@
     "order": 1
   },
   {
-    "id": "graphics-journey",
-    "title": "My Journey Through Graphics Programming",
-    "date": "2024-12-20",
-    "description": "Reflections on my experience learning graphics programming during my time at IU and beond, including challenges faced and lessons learned.",
-    "tags": ["Personal", "Graphics"],
-    "readTime": "short read",
+    "id": "forward-plus-renderer-rust",
+    "title": "Building a Forward+ Renderer in Rust",
+    "date": "2026-03-20",
+    "description": "A look at my OpenGL Forward+ renderer in Rust, focusing on design decisions, abstractions, and how the rendering pipeline works.",
+    "tags": ["Rust", "OpenGL", "Rendering", "Forward+"],
+    "readTime": "8–10 min read",
     "featured": true,
     "order": 2
   },
