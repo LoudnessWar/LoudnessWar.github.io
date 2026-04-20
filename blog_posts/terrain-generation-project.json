@@ -192,7 +192,7 @@
     },
     {
       "type": "image",
-      "src": "images/blog/whatever.png",
+      "src": "files/generation.png",
       "alt": "Terrain generation stages",
       "caption": "Terrain → Rivers → Roads",
       "width": "full"

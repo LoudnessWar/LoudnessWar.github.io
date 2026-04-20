@@ -184,6 +184,38 @@
     {
       "type": "text",
       "text": "There’s still a lot I want to improve, but this is one of those projects where I actually feel like I understand more than I did when I started — which is kind of the whole point. This project has lot more I could talk about as well. From the ECS System that lends its self well to Rust to the different shaders I used and the terrain generation algorithm that I came up with from this project on my own. But those all deserve their own blog posts wich I will write soon."
+    },
+    {
+      "type": "heading",
+      "text": "Gallery"
+    },
+    {
+      "type": "image",
+      "src": "files/light_1.png",
+      "alt": "Image Render",
+      "caption": "A rendering",
+      "width": "full"
+    },
+        {
+      "type": "image",
+      "src": "files/light_2.png",
+      "alt": "Image Render",
+      "caption": "Another Rendering",
+      "width": "full"
+    },
+        {
+      "type": "image",
+      "src": "files/purple.png",
+      "alt": "Image of Render",
+      "caption": "Render with no Skybox",
+      "width": "full"
+    },
+        {
+      "type": "image",
+      "src": "files/collision.gif",
+      "alt": "Video of Collision",
+      "caption": "Video of Collision",
+      "width": "full"
     }
   ]
 }

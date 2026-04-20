@@ -20,7 +20,7 @@
     },
     {
       "type": "image",
-      "src": "images/blog/simple-renderer-placeholder-1.png",
+      "src": "files/cube.gif",
       "alt": "wireframe model screenshot",
       "caption": "A rotating wireframe model rendered on the canvas.",
       "width": "full"
@@ -43,7 +43,7 @@
     },
     {
       "type": "image",
-      "src": "images/blog/simple-renderer-placeholder-2.png",
+      "src": "files/projection.gif",
       "alt": "projection diagram",
       "caption": "Perspective projection from 3D space to 2D screen.",
       "width": "full"
@@ -79,7 +79,7 @@
     },
     {
       "type": "image",
-      "src": "images/blog/simple-renderer-placeholder-3.png",
+      "src": "files/teapot.gif",
       "alt": "multiple frames of rotation",
       "caption": "Different frames of the rotating model.",
       "width": "full"

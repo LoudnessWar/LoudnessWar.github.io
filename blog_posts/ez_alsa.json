@@ -116,7 +116,7 @@
     },
     {
       "type": "image",
-      "src": "images/blog/whatever.png",
+      "src": "files/pipewire_framework.png",
       "alt": "Audio pipeline diagram",
       "caption": "A simplified view of the modern Linux audio pipeline.",
       "width": "full"
