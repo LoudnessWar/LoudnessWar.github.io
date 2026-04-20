@@ -52,7 +52,7 @@
     {
         "id": "chord",
         "title": "Chord a C terminal 3d rendering engine",
-        "description": "Origonally created to be a terminal based DAW later I started messing with notcurses and ended up making a 3d engine in the terminal ",
+        "description": "Origonally created to be a terminal based DAW later I started messing with notcurses and ended up making a 3d engine in the terminal",
         "tags": ["C", "Graphics Programming"],
         "github": "https://github.com/LoudnessWar/c_hord",
         "demo": null,
