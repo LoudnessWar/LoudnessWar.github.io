@@ -50,11 +50,11 @@
         "order": 4
     },
     {
-        "id": "py2.5",
-        "title": "Pygmae 2.5d",
-        "description": "Using pygame to create 2.5d Visuals and other screen/shader effects",
-        "tags": ["Python", "Graphics Programming"],
-        "github": "https://github.com/LoudnessWar/Pygame2.5d",
+        "id": "chord",
+        "title": "Chord a C terminal 3d rendering engine",
+        "description": "Origonally created to be a terminal based DAW later I started messing with notcurses and ended up making a 3d engine in the terminal ",
+        "tags": ["C", "Graphics Programming"],
+        "github": "https://github.com/LoudnessWar/c_hord",
         "demo": null,
         "featured": true,
         "order": 4
@@ -64,7 +64,7 @@
         "title": "Releastic terrain, Road, and River Generation",
         "description": "Releastic terrain, Road, and River Generation. Using an A* algorthim for Roads and A greedy search Algorithm for Rivers. Perlin Noise for terrain. In unity",
         "tags": ["Unity", "C++", "Algorithms"],
-        "github": "PUT LINK IN",
+        "github": null,
         "demo": null,
         "featured": true,
         "order": 4
@@ -74,7 +74,7 @@
         "title": "Custom Unity Lighting with Graphics Scene",
         "description": "Custom Unity Lighting with Graphics Scene",
         "tags": ["Unity", "C++", "Graphics Programming"],
-        "github": "https://github.com/LoudnessWar/Pygame2.5d",
+        "github": null,
         "demo": null,
         "featured": true,
         "order": 4

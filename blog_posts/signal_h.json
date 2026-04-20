@@ -1,7 +1,7 @@
 {
   "id": "signal_h",
   "title": "A brief explanation of signal.h",
-  "date": "Date",
+  "date": "2026-03-16",
   "description": "A beginner-friendly explanation of how signals work in C and Linux, and how to handle them using signal.h.",
   "tags": ["C", "Linux", "Systems Programming"],
   "readTime": "Around 5 Minutes",

@@ -1,7 +1,7 @@
 {
   "id": "ez_alsa",
   "title": "Getting Started with Audio Programming (Through Building a Terminal Guitar Amp)",
-  "date": "April 2026",
+  "date": "April 16 2026",
   "description": "A beginner-friendly introduction to audio programming concepts through building a simple terminal-based guitar amp using ALSA.",
   "tags": ["Audio Programming", "ALSA", "C", "Linux"],
   "readTime": "6–8 min read",

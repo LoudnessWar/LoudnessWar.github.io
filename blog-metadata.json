@@ -2,10 +2,10 @@
   {
     "id": "building-this-portfolio",
     "title": "Working on this website (or the manual insertion of the most recent blog post)",
-    "date": "2026-02-20",
+    "date": "2026-02-26",
     "description": "A behind the scenes look at the development of this website, including the design choices, technologies used, and challenges faced along the way.",
     "tags": ["Web Development"],
-    "readTime": "short read",
+    "readTime": "7–9 min read",
     "featured": true,
     "order": 1
   },
@@ -22,7 +22,7 @@
   {
     "id": "3d_fun_blog",
     "title": "A Quick Detour While Working on this Site",
-    "date": "2025-11-08",
+    "date": "2026-02-23",
     "description": "Making a small 3D engine that uses a html canvas",
     "tags": ["Web Development", "Graphics", "Tutorial"],
     "readTime": "10 min read",
