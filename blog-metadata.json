@@ -42,7 +42,7 @@
   {
     "id": "ez_alsa",
     "title": "A Brief Explanation of the Linux Audio Architecture",
-    "date": "2026-03-16",
+    "date": "2026-04-17",
     "description": "I wanted to make a guitar effects board in C for my guitar and so I spent some time learning about Linux's audio architecture.",
     "tags": ["C", "Audio Programming", "Things for me", "Linux"],
     "readTime": "5 min read",
@@ -52,7 +52,7 @@
   {
     "id": "ncurses_basic",
     "title": "Getting Started with ncurses",
-    "date": "2026-04-12",
+    "date": "2026-04-13",
     "description": "A beginner-friendly explanation of how ncurses works and how to think about windows, screens, and drawing to the terminal.",
     "tags": ["C", "ncurses", "Things for me", "Terminal UI"],
     "readTime": "6 min read",
