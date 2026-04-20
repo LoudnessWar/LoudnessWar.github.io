@@ -1,0 +1,189 @@
+{
+  "id": "forward-plus-renderer-rust",
+  "title": "Building a Forward+ Renderer in Rust (and Why I Wrapped OpenGL Like This)",
+  "date": "Date",
+  "description": "A look at my OpenGL Forward+ renderer in Rust, focusing on design decisions, abstractions, and how the rendering pipeline works.",
+  "tags": ["Rust", "OpenGL", "Rendering", "Forward+"],
+  "readTime": "8–10 min read",
+  "content": [
+    {
+      "type": "text",
+      "text": "I’ve been working on a renderer in Rust using OpenGL, and this is one of those projects where I kind of just wanted to see how far I could push myself."
+    },
+    {
+      "type": "text",
+      "text": "The main goal was to build a Forward+ renderer from scratch and actually understand what’s happening instead of relying on an engine to abstract everything away."
+    },
+    {
+      "type": "text",
+      "text": "A big part of that ended up being how I structured my OpenGL code in Rust, which honestly mattered more than I expected."
+    },
+    {
+      "type": "heading",
+      "text": "Why Wrap OpenGL at All?"
+    },
+    {
+      "type": "text",
+      "text": "Raw OpenGL in Rust is… not great. It’s very low-level, very unsafe, and very easy to mess up."
+    },
+    {
+      "type": "text",
+      "text": "So instead of calling OpenGL directly everywhere, I built small wrappers around core concepts like VAOs, buffers, and attributes."
+    },
+    {
+      "type": "text",
+      "text": "For example, I have a Vao struct that just owns the OpenGL ID and handles binding:"
+    },
+    {
+      "type": "code",
+      "language": "rust",
+      "code": "pub struct Vao {\n    id: GLuint,\n}\n\nimpl Vao {\n    pub fn new() -> Vao {\n        let mut id = 0;\n        unsafe { gl::GenVertexArrays(1, &mut id); }\n        Vao { id }\n    }\n\n    pub fn bind(&self) {\n        unsafe { gl::BindVertexArray(self.id); }\n    }\n}"
+    },
+    {
+      "type": "text",
+      "text": "This isn’t anything fancy, but it already makes the code way more readable and harder to misuse."
+    },
+    {
+      "type": "heading",
+      "text": "Designing Around Rust (Not Fighting It)"
+    },
+    {
+      "type": "text",
+      "text": "One thing I tried to do was not fight Rust’s ownership model. Instead of pretending OpenGL is safe, I just isolated the unsafe parts into small sections."
+    },
+    {
+      "type": "text",
+      "text": "For example, buffer objects handle their own data uploads:"
+    },
+    {
+      "type": "code",
+      "language": "rust",
+      "code": "pub fn store_f32_data(&self, data: &[f32]) {\n    self.bind();\n    let size = (data.len() * std::mem::size_of::<f32>()) as isize;\n\n    unsafe {\n        gl::BufferData(self.r#type, size, data.as_ptr() as *const _, self.usage);\n    }\n}"
+    },
+    {
+      "type": "text",
+      "text": "The idea is: unsafe stays inside the abstraction, and everything else can stay clean."
+    },
+    {
+      "type": "text",
+      "text": "I also added a small macro to catch OpenGL errors immediately, because debugging silent GL failures is horrible:"
+    },
+    {
+      "type": "code",
+      "language": "rust",
+      "code": "macro_rules! gl_check {\n    ($call:expr) => {{\n        $call;\n        let err = unsafe { gl::GetError() };\n        if err != gl::NO_ERROR {\n            panic!(\"GL Error {:#x}\", err);\n        }\n    }};\n}"
+    },
+    {
+      "type": "heading",
+      "text": "Why Forward+?"
+    },
+    {
+      "type": "text",
+      "text": "Traditional forward rendering doesn’t scale well with lots of lights. Every object gets lit by every light, which gets expensive fast."
+    },
+    {
+      "type": "text",
+      "text": "Deferred rendering solves that, but comes with its own tradeoffs (G-buffer cost, transparency issues, etc.)."
+    },
+    {
+      "type": "text",
+      "text": "Forward+ is kind of a middle ground. You still do forward rendering, but you limit how many lights each fragment considers."
+    },
+    {
+      "type": "heading",
+      "text": "How Forward+ Works (Conceptually)"
+    },
+    {
+      "type": "text",
+      "text": "The idea is to divide the screen into a grid of tiles (for example 16x16 pixel regions)."
+    },
+    {
+      "type": "text",
+      "text": "Then for each tile, you figure out which lights actually affect it."
+    },
+    {
+      "type": "text",
+      "text": "So instead of every pixel checking every light, each pixel only checks the lights assigned to its tile."
+    },
+    {
+      "type": "text",
+      "text": "That’s the entire optimization."
+    },
+    {
+      "type": "heading",
+      "text": "Where Depth Comes In"
+    },
+    {
+      "type": "text",
+      "text": "The \"plus\" in Forward+ usually involves using depth information to make the light culling more accurate."
+    },
+    {
+      "type": "text",
+      "text": "Instead of just dividing the screen in 2D, you can think of it as slicing space into 3D clusters using depth ranges."
+    },
+    {
+      "type": "text",
+      "text": "So now lights are assigned not just to screen tiles, but to depth-aware clusters. This avoids lights affecting pixels that are technically in the same tile but far away in depth."
+    },
+    {
+      "type": "heading",
+      "text": "How This Connects to My Design"
+    },
+    {
+      "type": "text",
+      "text": "This is where the buffer abstractions actually matter."
+    },
+    {
+      "type": "text",
+      "text": "Forward+ relies heavily on GPU-side data structures — things like:"
+    },
+    {
+      "type": "text",
+      "text": "• light lists per tile\n• depth data\n• cluster indices"
+    },
+    {
+      "type": "text",
+      "text": "In my case, I’m using buffer objects (like SSBOs) to store and pass this data around."
+    },
+    {
+      "type": "text",
+      "text": "That’s why my BufferObject abstraction supports things like binding to shader storage buffers — it’s not just for vertices anymore."
+    },
+    {
+      "type": "heading",
+      "text": "A Small but Important Detail"
+    },
+    {
+      "type": "text",
+      "text": "One thing I learned pretty quickly is that OpenGL state management is where everything goes wrong."
+    },
+    {
+      "type": "text",
+      "text": "Binding the wrong buffer, forgetting to unbind something, or accidentally overwriting a binding point can completely break things in ways that are hard to debug."
+    },
+    {
+      "type": "text",
+      "text": "Wrapping things in structs helped a lot with this, because it forces a more predictable flow."
+    },
+    {
+      "type": "heading",
+      "text": "Final Thoughts"
+    },
+    {
+      "type": "text",
+      "text": "This project has been less about just “making a renderer” and more about understanding how all the pieces actually fit together."
+    },
+    {
+      "type": "text",
+      "text": "Forward+ has been pretty confusing to understand I will be honest but I now beleive that I have a solid foundation and understand the concepts better than I did when I started."
+    },
+    {
+      "type": "text",
+      "text": "And honestly, the Rust side of things has been just as interesting and I have learned so much about rust from this project. Figuring out how to structure unsafe OpenGL code in a way that still feels clean and manageable has probably been the most valuable part."
+    },
+    {
+      "type": "text",
+      "text": "There’s still a lot I want to improve, but this is one of those projects where I actually feel like I understand more than I did when I started — which is kind of the whole point. This project has lot more I could talk about as well. From the ECS System that lends its self well to Rust to the different shaders I used and the terrain generation algorithm that I came up with from this project on my own. But those all deserve their own blog posts wich I will write soon."
+    }
+  ]
+}
