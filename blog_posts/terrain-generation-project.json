@@ -1,0 +1,217 @@
+{
+  "id": "terrain-generation-project",
+  "title": "Procedural Terrain Generation in Unity (Rivers, Roads, and A*)",
+  "date": "April 17 2026",
+  "description": "A look at a group project where we built a procedural terrain generator using Perlin noise, greedy search, and A* pathfinding.",
+  "tags": ["Unity", "Procedural Generation", "A*", "Algorithms"],
+  "readTime": "7–9 min read",
+  "content": [
+    {
+      "type": "text",
+      "text": "This was a group project I worked on, and it was honestly one of my favorite projects I’ve done. It was very open-ended — we were basically allowed to build whatever we wanted — and I think that freedom is what made it turn into something I’m actually proud of."
+    },
+    {
+      "type": "text",
+      "text": "The idea was to create a terrain generator for Dungeons & Dragons campaigns. I’m not really a huge D&D person, but I do really like procedural terrain generation, so that was the part that hooked me immediately."
+    },
+    {
+      "type": "heading",
+      "text": "Tech Stack (Why Unity?)"
+    },
+    {
+      "type": "text",
+      "text": "We built the project in Unity. It made a lot of sense for this kind of problem because we could quickly visualize terrain, iterate on ideas, and actually see how the generation changed in real time."
+    },
+    {
+      "type": "text",
+      "text": "Being able to tweak parameters and instantly see the results is huge when working on procedural systems. Without that, you’re basically guessing."
+    },
+    {
+      "type": "heading",
+      "text": "Breaking the Problem Down"
+    },
+    {
+      "type": "text",
+      "text": "We ended up splitting the project into three main parts:"
+    },
+    {
+      "type": "text",
+      "text": "1. Base terrain generation\n2. Water features (rivers and lakes)\n3. Roads connecting important locations"
+    },
+    {
+      "type": "heading",
+      "text": "Base Terrain (Perlin Noise)"
+    },
+    {
+      "type": "text",
+      "text": "For the terrain itself, we didn’t do anything too crazy. We used Perlin noise to generate a heightmap."
+    },
+    {
+      "type": "text",
+      "text": "Perlin noise is nice because it gives you smooth, natural-looking variation instead of completely random values. So instead of jagged chaos, you get rolling hills, valleys, and more realistic terrain."
+    },
+    {
+      "type": "text",
+      "text": "At a high level, you sample a noise function at each (x, y) coordinate and treat the result as elevation. That’s basically your world."
+    },
+    {
+      "type": "heading",
+      "text": "Water Generation (Greedy Search)"
+    },
+    {
+      "type": "text",
+      "text": "Water was a bit more interesting. We wanted rivers to feel somewhat natural, not just random lines."
+    },
+    {
+      "type": "text",
+      "text": "We used a greedy approach because it actually maps pretty well to how water behaves. At each step, the algorithm just picks the lowest neighboring point — basically “go downhill as much as possible.”"
+    },
+    {
+      "type": "text",
+      "text": "So the idea looks like this:"
+    },
+    {
+      "type": "text",
+      "text": "• Start from a high elevation point\n• Look at neighboring tiles\n• Move to the one with the lowest height\n• Repeat until you hit an ocean or a basin"
+    },
+    {
+      "type": "text",
+      "text": "This creates paths that naturally flow downhill, which ends up looking pretty convincing."
+    },
+    {
+      "type": "text",
+      "text": "We also handled things like local minimums by letting water pool and then branch out into new paths. That helped avoid rivers just getting stuck awkwardly."
+    },
+    {
+      "type": "heading",
+      "text": "What Is a Greedy Algorithm?"
+    },
+    {
+      "type": "text",
+      "text": "A greedy algorithm is one that makes the best local decision at each step, without worrying about the bigger picture."
+    },
+    {
+      "type": "text",
+      "text": "In our case, the \"best\" choice was simply \"go to the lowest adjacent tile.\" It doesn’t plan ahead — it just reacts to what’s immediately available."
+    },
+    {
+      "type": "text",
+      "text": "This doesn’t always give a globally optimal result, but for something like water flow, it actually works really well."
+    },
+    {
+      "type": "heading",
+      "text": "Road Generation (A*)"
+    },
+    {
+      "type": "text",
+      "text": "Roads were the part I worked on. The goal was to connect important locations (like cities) in a way that felt realistic."
+    },
+    {
+      "type": "text",
+      "text": "My thinking was: people build roads to connect points efficiently. They might avoid mountains or water, but they’re still trying to minimize cost overall."
+    },
+    {
+      "type": "text",
+      "text": "That’s basically what A* is designed for."
+    },
+    {
+      "type": "heading",
+      "text": "What Is A*?"
+    },
+    {
+      "type": "text",
+      "text": "A* is a pathfinding algorithm that finds the lowest-cost path between two points. It’s like a smarter version of Dijkstra’s algorithm."
+    },
+    {
+      "type": "text",
+      "text": "It works by combining two values:"
+    },
+    {
+      "type": "text",
+      "text": "g(n): the cost to reach the current node\nh(n): a heuristic estimate of the cost to reach the goal"
+    },
+    {
+      "type": "text",
+      "text": "Then it evaluates nodes using:"
+    },
+    {
+      "type": "text",
+      "text": "f(n) = g(n) + h(n)"
+    },
+    {
+      "type": "text",
+      "text": "This lets it prioritize paths that are both cheap so far and likely to stay cheap."
+    },
+    {
+      "type": "heading",
+      "text": "Our Heuristics"
+    },
+    {
+      "type": "text",
+      "text": "We used a few different factors to influence road generation:"
+    },
+    {
+      "type": "text",
+      "text": "• Distance heuristic: encourages shorter paths\n• Elevation heuristic: avoids steep terrain\n• Water heuristic: discourages crossing rivers or lakes"
+    },
+    {
+      "type": "text",
+      "text": "For distance, we used a grid-based approximation like:"
+    },
+    {
+      "type": "text",
+      "text": "(Δx + Δy) - min(Δx, Δy)"
+    },
+    {
+      "type": "text",
+      "text": "This works well for grid movement and keeps the path fairly direct."
+    },
+    {
+      "type": "text",
+      "text": "All of these combined gave us roads that felt pretty natural — not perfectly realistic, but definitely believable."
+    },
+    {
+      "type": "heading",
+      "text": "Putting It All Together"
+    },
+    {
+      "type": "text",
+      "text": "So the full pipeline looked something like:"
+    },
+    {
+      "type": "text",
+      "text": "1. Generate terrain with Perlin noise\n2. Add oceans and base elevation\n3. Generate rivers using greedy descent\n4. Connect locations with A* roads"
+    },
+    {
+      "type": "text",
+      "text": "Each step builds on the previous one, which made the whole system feel pretty cohesive."
+    },
+    {
+      "type": "text",
+      "text": "Here are some example stages of the generation process:"
+    },
+    {
+      "type": "image",
+      "src": "images/blog/whatever.png",
+      "alt": "Terrain generation stages",
+      "caption": "Terrain → Rivers → Roads",
+      "width": "full"
+    },
+    {
+      "type": "heading",
+      "text": "Conclusion"
+    },
+    {
+      "type": "text",
+      "text": "This project was fun because it didn’t feel like a strict assignment. It felt like building something I actually cared about."
+    },
+    {
+      "type": "text",
+      "text": "It also helped me understand how different algorithms can map to real-world behavior — like greedy search for water and A* for human-made paths."
+    },
+    {
+      "type": "text",
+      "text": "And honestly, just seeing everything come together visually in Unity made it way more satisfying than just writing algorithms on paper."
+    }
+  ]
+}
